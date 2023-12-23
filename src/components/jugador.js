@@ -1,7 +1,7 @@
 // =======================================================================
 export class Jugador {
 
-    static VEL_X = 420;
+    static VEL_X = 520;
     static ACEL_X = 500;
     static VEL_Y = 0;
 
@@ -13,7 +13,7 @@ export class Jugador {
     create(WIDTH, HEIGHT) {
 
         this.jugador = this.relatedScene.physics.add.sprite(Math.floor(WIDTH / 2), Math.floor(HEIGHT / 1.08), 'jugador');
-        this.jugador.setScale(3.5);
+        this.jugador.setScale(0.5, 0.5);
 
         this.jugador.setData('vel-x', Jugador.VEL_X);
         this.jugador.setData('acel-x', Jugador.ACEL_X);
