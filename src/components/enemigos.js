@@ -2,7 +2,7 @@
 export class Enemigo {
 
     static WIDTH = 800;
-    static HEIGHT = 550;
+    static HEIGHT = 600;
 
     static tileXY = [64, 64];
 

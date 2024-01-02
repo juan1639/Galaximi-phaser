@@ -1,3 +1,5 @@
+import { Disparo } from './disparo.js';
+
 // =======================================================================
 export class Jugador {
 
@@ -21,7 +23,21 @@ export class Jugador {
         this.jugador.setCollideWorldBounds(true);
         this.jugador.setBounce(0.2);
 
+        this.disparo = {
+            bandera: false,
+            cadencia: 200
+        };
+
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
+
+        this.timeline = this.relatedScene.add.timeline([
+            {
+                at: this.disparo.cadencia,
+                run: () => { this.disparo.bandera = true }
+            }
+        ]);
+
+        this.timeline.play();
 
         console.log(this.jugador);
     }
@@ -29,10 +45,12 @@ export class Jugador {
     update() {
 
         if (this.controles.left.isDown) {
+
             this.jugador.setVelocityX(-this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(-this.jugador.getData('acel-x'));
             
         } else if (this.controles.right.isDown) {
+
             this.jugador.setVelocityX(this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(this.jugador.getData('acel-x'));
 
@@ -41,7 +59,21 @@ export class Jugador {
         }
 
         if (this.controles.up.isDown) {
+
+            console.log(this.disparo.bandera);
+            this.inicia_disparo();
+        }
+    }
+
+    inicia_disparo() {
+
+        if (this.disparo.bandera) {
+
+            this.disparo = new Disparo(this.relatedScene, this.jugador.x, this.jugador.y);
+            
             console.log('disparo');
+            this.disparo.bandera = false;
+            this.timeline.reset();
         }
     }
 
