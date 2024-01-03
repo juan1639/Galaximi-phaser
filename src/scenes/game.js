@@ -33,6 +33,15 @@ export class Game extends Phaser.Scene {
 
   create() {
 
+    this.sonidoDisparo = this.sound.add('sonidoDisparo');
+    this.sonidoExplosion = this.sound.add('sonidoExplosion');
+    this.sonidoGameOver = this.sound.add('sonidoGameOver');
+    this.sonidoLevelUp = this.sound.add('sonidoLevelUp');
+    this.sonidoNaveExplota= this.sound.add('sonidoNaveExplota');
+    this.sonidoGalaxian = this.sound.add('sonidoGalaxian');
+    this.sonidoIntroRetro = this.sound.add('sonidoIntroRetro');
+    this.sonidoMusicaFondo = this.sound.add('sonidoMusicaFondo');
+
     this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
     this.estrella.create();
 
@@ -46,10 +55,7 @@ export class Game extends Phaser.Scene {
 
     console.log(this.jugador.controles);
 
-    /* this.physics.add.collider(this.enemigo.get(), this.jugador.getDisparo(), (enemigo, jugador) => {
-      console.log('colision');
-
-    }, null, this); */
+    this.physics.add.collider(this.enemigo.get().rojo, this.disparo.get(), this.colisionVsEnemigo, null, this);
   }
 
   // ================================================================
@@ -80,22 +86,32 @@ export class Game extends Phaser.Scene {
 
         this.disparo.get().getChildren().forEach(disp => {
 
-          console.log(disp.active, disp.visible);
+          console.log(disp.active);
 
           if (!disp.active && !disp.visible && !buscar) {
             buscar = true;
-            disp.active = true;
-            disp.visible = true;
-            disp.setAlpha(0.8);
+            disp.setActive(true).setVisible(true);
             disp.setX(this.jugador.get().x);
             disp.setY(this.jugador.get().y - Math.floor(this.jugador.get().body.height / 2));
             disp.setVelocityY(Disparo.VEL_Y);
+            disp.setAlpha(0.8);
+            this.sonidoDisparo.play();
           }
         });
 
         this.disparo.cadencia.bandera = this.time.now + this.disparo.cadencia.disparo;
       }
     }
+  }
+
+  // ================================================================
+  colisionVsEnemigo(enemigo, disparo) {
+
+    console.log('colision...disparo-enemigo');
+    disparo.setActive(false).setVisible(false).setX(-9999);
+    enemigo.setActive(false).setVisible(false).setX(7777);
+
+    if (this.enemigo.get().rojo.countActive() <= 0) console.log('nivel superado!');
   }
 
   // ================================================================

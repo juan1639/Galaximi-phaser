@@ -23,22 +23,17 @@ export class Jugador {
         this.jugador.setCollideWorldBounds(true);
         this.jugador.setBounce(0.2);
 
-        this.disparo = {
-            bandera: false,
-            cadencia: 200
-        };
-
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
         console.log(this.controles);
 
-        this.timeline = this.relatedScene.add.timeline([
+        /* this.timeline = this.relatedScene.add.timeline([
             {
                 at: this.disparo.cadencia,
                 run: () => { this.disparo.bandera = true }
             }
         ]);
 
-        this.timeline.play();
+        this.timeline.play(); */
 
         console.log(this.jugador);
     }
@@ -54,33 +49,14 @@ export class Jugador {
 
             this.jugador.setVelocityX(this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(this.jugador.getData('acel-x'));
-
+        
         } else {
             this.jugador.setVelocityX(0);
         }
     }
-
-    inicia_disparo() {
-
-        console.log(this.disparo);
-
-        if (this.disparo.bandera) {
-
-            this.disparo = new Disparo(this.relatedScene, this.jugador);
-            this.disparo.create();
-            
-            console.log('disparo');
-            this.disparo.bandera = false;
-            this.timeline.reset();
-        }
-    }
-
+    
     get() {
         return this.jugador;
-    }
-
-    getDisparo() {
-        return this.disparo;
     }
 }
 
