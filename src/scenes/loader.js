@@ -6,6 +6,7 @@ export function loader(scene) {
 
   scene.load.image('jugador', './src/img/nave-galaxian200x200.png');
   scene.load.spritesheet('enemigos', './src/img/anima-enemigosGalaxian.png', {frameWidth: 135, frameHeight: 95});
+  scene.load.image('disparos', './src/img/estrella-rojiza.png');
   scene.load.image('explo-nave', './src/img/explo-naveGalaxian.png');
   scene.load.image('explo-enemigos', './src/img/explo-enemigosGalaximi.png');
 

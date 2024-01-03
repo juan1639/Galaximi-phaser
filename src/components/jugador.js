@@ -29,6 +29,7 @@ export class Jugador {
         };
 
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
+        console.log(this.controles);
 
         this.timeline = this.relatedScene.add.timeline([
             {
@@ -57,19 +58,16 @@ export class Jugador {
         } else {
             this.jugador.setVelocityX(0);
         }
-
-        if (this.controles.up.isDown) {
-
-            console.log(this.disparo.bandera);
-            this.inicia_disparo();
-        }
     }
 
     inicia_disparo() {
 
+        console.log(this.disparo);
+
         if (this.disparo.bandera) {
 
-            this.disparo = new Disparo(this.relatedScene, this.jugador.x, this.jugador.y);
+            this.disparo = new Disparo(this.relatedScene, this.jugador);
+            this.disparo.create();
             
             console.log('disparo');
             this.disparo.bandera = false;
@@ -79,6 +77,10 @@ export class Jugador {
 
     get() {
         return this.jugador;
+    }
+
+    getDisparo() {
+        return this.disparo;
     }
 }
 
