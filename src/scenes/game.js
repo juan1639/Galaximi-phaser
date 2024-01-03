@@ -58,16 +58,7 @@ export class Game extends Phaser.Scene {
     // const pointer = this.input.activePointer;
     // console.log(pointer.worldX, pointer.worldY);
 
-    if (this.jugador.controles.up.isDown) {
-
-      if (this.time.now > this.disparo.cadencia.bandera) {
-
-        console.log('---');
-
-        this.disparo.get().getChildren()[2].setVelocityY(-50);
-        this.disparo.cadencia.bandera = this.time.now + this.disparo.cadencia.disparo;
-      }
-    }
+    this.inicia_disparo();
 
     this.estrella.update();
     this.jugador.update();
@@ -75,6 +66,36 @@ export class Game extends Phaser.Scene {
     this.enemigo.update();
 
     // this.marcador.update(this.jugador.get().x, this.jugador.get().y);
+  }
+
+  // ================================================================
+  inicia_disparo() {
+
+    if (this.jugador.controles.up.isDown) {
+
+      if (this.time.now > this.disparo.cadencia.bandera) {
+
+        console.log('disparo');
+        let buscar = false;
+
+        this.disparo.get().getChildren().forEach(disp => {
+
+          console.log(disp.active, disp.visible);
+
+          if (!disp.active && !disp.visible && !buscar) {
+            buscar = true;
+            disp.active = true;
+            disp.visible = true;
+            disp.setAlpha(0.8);
+            disp.setX(this.jugador.get().x);
+            disp.setY(this.jugador.get().y - Math.floor(this.jugador.get().body.height / 2));
+            disp.setVelocityY(Disparo.VEL_Y);
+          }
+        });
+
+        this.disparo.cadencia.bandera = this.time.now + this.disparo.cadencia.disparo;
+      }
+    }
   }
 
   // ================================================================

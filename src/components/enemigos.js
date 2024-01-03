@@ -93,7 +93,7 @@ export class Enemigo {
         ene.setX(x * Enemigo.tileXY[0] + margenL);
         ene.setY(y * Enemigo.tileXY[1]);
 
-        // if (Enemigo.array_enemigos[y][x] === 0) ene.setVisible(false);
+        if (Enemigo.array_enemigos[y][x] === 0) ene.setVisible(false);
     }
 
     get_posicion(index) {
