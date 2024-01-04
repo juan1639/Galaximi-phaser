@@ -2,6 +2,7 @@
 // ======================================================================================
 export class Disparo {
 
+    static NRO_MAX_DISPAROS = 4;
     static VEL_Y = -500;
 
     // ------------------------------------------------------
@@ -15,7 +16,7 @@ export class Disparo {
         this.disparo = this.relatedScene.physics.add.group({
             key: 'disparos',
             setXY: { x: -9999, y: 9999, stepX: 150 },
-            repeat: 4
+            repeat: Disparo.NRO_MAX_DISPAROS
         });
 
         this.relatedScene.anims.create({
@@ -28,7 +29,6 @@ export class Disparo {
         this.disparo.getChildren().forEach(disp => {
             disp.setScale(0.6, 1);
             disp.setActive(false).setVisible(false);
-            console.log(disp.disableBody);
             disp.play('disparos-anim');
             // console.log(disp.body.width, disp.body.height);
         });

@@ -1,4 +1,3 @@
-import { Disparo } from './disparo.js';
 
 // =======================================================================
 export class Jugador {

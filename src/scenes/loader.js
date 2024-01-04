@@ -9,6 +9,7 @@ export function loader(scene) {
   scene.load.spritesheet('disparos', './src/img/laserss.png', {frameWidth: 32, frameHeight: 65});
   scene.load.image('explo-nave', './src/img/explo-naveGalaxian.png');
   scene.load.image('explo-enemigos', './src/img/explo-enemigosGalaximi.png');
+  scene.load.spritesheet('explosion', './src/img/explosionSsheet.png', {frameWidth: 559, frameHeight: 636});
 
   // scene.load.image('gameover', './src/img/gameover.png');
 

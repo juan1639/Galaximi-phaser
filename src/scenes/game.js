@@ -8,6 +8,8 @@ import { Jugador } from './../components/jugador.js';
 import { Disparo } from '../components/disparo.js';
 import { Marcador } from './../components/marcador.js';
 import { Enemigo } from './../components/enemigos.js';
+import { Explosion } from '../components/explosion.js';
+import { Particulas } from '../components/particulas.js';
 
 const WIDTH = 800;
 const HEIGHT = 600;
@@ -24,6 +26,8 @@ export class Game extends Phaser.Scene {
     this.jugador = new Jugador(this);
     this.disparo = new Disparo(this);
     this.enemigo = new Enemigo(this);
+    this.explosion = new Explosion(this);
+    this.particulas = new Particulas(this);
     this.marcador = new Marcador(this);
   }
 
@@ -37,7 +41,7 @@ export class Game extends Phaser.Scene {
     this.sonidoExplosion = this.sound.add('sonidoExplosion');
     this.sonidoGameOver = this.sound.add('sonidoGameOver');
     this.sonidoLevelUp = this.sound.add('sonidoLevelUp');
-    this.sonidoNaveExplota= this.sound.add('sonidoNaveExplota');
+    this.sonidoNaveExplota = this.sound.add('sonidoNaveExplota');
     this.sonidoGalaxian = this.sound.add('sonidoGalaxian');
     this.sonidoIntroRetro = this.sound.add('sonidoIntroRetro');
     this.sonidoMusicaFondo = this.sound.add('sonidoMusicaFondo');
@@ -51,6 +55,8 @@ export class Game extends Phaser.Scene {
     this.jugador.create(WIDTH, HEIGHT);
     this.disparo.create();
     this.enemigo.create();
+    this.explosion.create();
+    this.particulas.create();
     // this.marcador.create();
 
     console.log(this.jugador.controles);
@@ -94,7 +100,7 @@ export class Game extends Phaser.Scene {
             disp.setX(this.jugador.get().x);
             disp.setY(this.jugador.get().y - Math.floor(this.jugador.get().body.height / 2));
             disp.setVelocityY(Disparo.VEL_Y);
-            disp.setAlpha(0.8);
+            disp.setAlpha(0.9);
             this.sonidoDisparo.play();
           }
         });
@@ -108,8 +114,46 @@ export class Game extends Phaser.Scene {
   colisionVsEnemigo(enemigo, disparo) {
 
     console.log('colision...disparo-enemigo');
+
+    let buscarParticula = 0;
+
+    this.particulas.get().children.iterate(particula => {
+
+      if (!particula.active && !particula.visible && buscarParticula < Particulas.NRO_PARTICULAS) {
+        buscarParticula ++;
+        particula.setActive(true).setVisible(true);
+        particula.setX(enemigo.x);
+        particula.setY(enemigo.y);
+        particula.setVelocity(Phaser.Math.Between(-180, 180), Phaser.Math.Between(-120, 120));
+        particula.setAlpha(1.0);
+
+        setTimeout(() => {
+          particula.setActive(false).setVisible(false);
+        }, Particulas.DURACION_PARTICULAS);
+      }
+    });
+
+    let buscar = false;
+
+    this.explosion.get().children.iterate(explo => {
+
+      if (!explo.active && !explo.visible && !buscar) {
+        buscar = true;
+        explo.setActive(true).setVisible(true);
+        explo.setX(enemigo.x);
+        explo.setY(enemigo.y);
+        explo.setAlpha(1.0);
+
+        setTimeout(() => {
+          explo.setActive(false).setVisible(false);
+        }, Explosion.DURACION_EXPLO);
+      }
+    });
+
     disparo.setActive(false).setVisible(false).setX(-9999);
     enemigo.setActive(false).setVisible(false).setX(7777);
+
+    this.sonidoExplosion.play();
 
     if (this.enemigo.get().rojo.countActive() <= 0) console.log('nivel superado!');
   }
