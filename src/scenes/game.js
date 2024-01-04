@@ -29,6 +29,7 @@ export class Game extends Phaser.Scene {
     this.explosion = new Explosion(this);
     this.particulas = new Particulas(this);
     this.marcador = new Marcador(this);
+    // var joyStick = scene.plugins.get('rexvirtualjoystickplugin').addPlayer(scene, config);
   }
 
   preload() {
@@ -49,6 +50,14 @@ export class Game extends Phaser.Scene {
     this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
     this.estrella.create();
 
+    this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+      x: 50,
+      y: HEIGHT - 90,
+      radius: 100,
+      base: this.add.circle(0, 0, 50, 0x888888),
+      thumb: this.add.circle(0, 0, 25, 0xcccccc),
+    });
+
     // this.gameoverImage = this.add.image(400, 90, 'gameover');
     // this.gameoverImage.visible = false;
 
@@ -59,7 +68,7 @@ export class Game extends Phaser.Scene {
     this.particulas.create();
     // this.marcador.create();
 
-    console.log(this.jugador.controles);
+    console.log(this.jugador.controles, this.jugador.joystickCursors);
 
     this.physics.add.collider(this.enemigo.get().rojo, this.disparo.get(), this.colisionVsEnemigo, null, this);
   }
@@ -83,7 +92,7 @@ export class Game extends Phaser.Scene {
   // ================================================================
   inicia_disparo() {
 
-    if (this.jugador.controles.up.isDown) {
+    if (this.jugador.controles.up.isDown || this.jugador.joystickCursors.up.isDown) {
 
       if (this.time.now > this.disparo.cadencia.bandera) {
 

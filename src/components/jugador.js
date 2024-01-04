@@ -23,6 +23,8 @@ export class Jugador {
         this.jugador.setBounce(0.2);
 
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
+        this.joystickCursors = this.relatedScene.joyStick.createCursorKeys();
+
         console.log(this.controles);
 
         /* this.timeline = this.relatedScene.add.timeline([
@@ -39,12 +41,12 @@ export class Jugador {
 
     update() {
 
-        if (this.controles.left.isDown) {
+        if (this.controles.left.isDown || this.joystickCursors.left.isDown) {
 
             this.jugador.setVelocityX(-this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(-this.jugador.getData('acel-x'));
             
-        } else if (this.controles.right.isDown) {
+        } else if (this.controles.right.isDown  || this.joystickCursors.right.isDown) {
 
             this.jugador.setVelocityX(this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(this.jugador.getData('acel-x'));

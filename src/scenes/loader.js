@@ -5,13 +5,22 @@ export function loader(scene) {
   scene.load.image('estrella-roja', './src/img/estrella-rojiza.png');
 
   scene.load.image('jugador', './src/img/nave-galaxian200x200.png');
-  scene.load.spritesheet('enemigos', './src/img/anima-enemigosGalaxian.png', {frameWidth: 135, frameHeight: 95});
   scene.load.spritesheet('disparos', './src/img/laserss.png', {frameWidth: 32, frameHeight: 65});
-  scene.load.image('explo-nave', './src/img/explo-naveGalaxian.png');
-  scene.load.image('explo-enemigos', './src/img/explo-enemigosGalaximi.png');
+
+  scene.load.spritesheet('enemigos', './src/img/anima-enemigosGalaxian.png', {frameWidth: 135, frameHeight: 95});
   scene.load.spritesheet('explosion', './src/img/explosionSsheet.png', {frameWidth: 559, frameHeight: 636});
 
+  // scene.load.image('explo-nave', './src/img/explo-naveGalaxian.png');
+  // scene.load.image('explo-enemigos', './src/img/explo-enemigosGalaximi.png');
+
   // scene.load.image('gameover', './src/img/gameover.png');
+  scene.load.spritesheet('boton-nueva-partida', './src/img/playbutton.png', {frameWidth: 190, frameHeight: 49});
+
+  // ---------------------------------------------------------------------------------
+  //  Pluggin Control Joystick-tactil
+  // ---------------------------------------------------------------------------------
+  let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+  scene.load.plugin('rexvirtualjoystickplugin', url, true);
 
   // ---------------------------------------------------------------------------------
   //  Audio
