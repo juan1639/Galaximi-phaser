@@ -19,6 +19,13 @@ export class Disparo {
             repeat: Disparo.NRO_MAX_DISPAROS
         });
 
+        this.relatedScene.tweens.add({
+            targets: this.disparo.getChildren(),
+            tint: new Phaser.Display.Color(255, Phaser.Math.Between(40, 250), 0).color,
+            duration: 500,
+            repeat: -1
+        });
+
         this.relatedScene.anims.create({
             key: 'disparos-anim',
             frames: this.relatedScene.anims.generateFrameNumbers('disparos', { frames: [0, 1] }),

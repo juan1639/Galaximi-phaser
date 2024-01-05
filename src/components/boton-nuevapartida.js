@@ -15,7 +15,7 @@ export class BotonNuevaPartida {
         const alto = BotonNuevaPartida.HEIGHT;
         this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 2), Math.floor(alto / 1.5), 'boton-nueva-partida').setInteractive();
         this.boton.setScale(0.7);
-        this.boton.setAngle(7);
+        this.boton.setAngle(5);
     
         this.boton.on('pointerover', () => {
           // this.boton.setFrame(1);
@@ -32,7 +32,7 @@ export class BotonNuevaPartida {
 
         this.relatedScene.tweens.add({
           targets: this.boton,
-          angle: -7,
+          angle: -5,
           yoyo: true,
           duration: 2000,
           repeat: -1

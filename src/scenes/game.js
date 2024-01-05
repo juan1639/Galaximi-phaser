@@ -7,7 +7,7 @@ import { Estrella } from './../components/fondo.js';
 import { Jugador } from './../components/jugador.js';
 import { Disparo } from '../components/disparo.js';
 import { Marcador } from './../components/marcador.js';
-import { Enemigo } from './../components/enemigos.js';
+import { Enemigo } from './../components/enemigos2.js';
 import { Explosion } from '../components/explosion.js';
 import { Particulas } from '../components/particulas.js';
 
@@ -22,6 +22,7 @@ export class Game extends Phaser.Scene {
   }
 
   init() {
+
     this.estrella = new Estrella(this);
     this.jugador = new Jugador(this);
     this.disparo = new Disparo(this);
@@ -70,7 +71,7 @@ export class Game extends Phaser.Scene {
 
     console.log(this.jugador.controles, this.jugador.joystickCursors);
 
-    this.physics.add.collider(this.enemigo.get().rojo, this.disparo.get(), this.colisionVsEnemigo, null, this);
+    this.physics.add.collider(this.enemigo.get(), this.disparo.get(), this.colisionVsEnemigo, null, this);
   }
 
   // ================================================================
@@ -164,7 +165,7 @@ export class Game extends Phaser.Scene {
 
     this.sonidoExplosion.play();
 
-    if (this.enemigo.get().rojo.countActive() <= 0) console.log('nivel superado!');
+    if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');
   }
 
   // ================================================================

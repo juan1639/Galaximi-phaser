@@ -1,4 +1,5 @@
 import { loader } from './loader.js';
+import { Settings } from './settings.js';
 import { Estrella } from '../components/fondo.js';
 import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
 
@@ -14,6 +15,11 @@ export class MenuPrincipal extends Phaser.Scene {
     }
 
     init() {
+
+        Settings.setPuntos(0);
+        Settings.setNivel(1);
+        Settings.setVidas(3);
+
         this.estrella = new Estrella(this);
         this.botoninicio = new BotonNuevaPartida(this);
     } 

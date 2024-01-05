@@ -1,5 +1,5 @@
 import { Estrella } from '../components/fondo.js';
-import { EnemigoApareciendo } from '../components/enemigos.js';
+import { EnemigoApareciendo } from '../components/enemigos2.js';
 
 // ================================================================================
 export class AparecenEnemigos extends Phaser.Scene {
