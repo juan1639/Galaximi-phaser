@@ -8,11 +8,10 @@ export function loader(scene) {
   scene.load.spritesheet('disparos', './src/img/laserss.png', {frameWidth: 32, frameHeight: 65});
 
   scene.load.spritesheet('enemigos', './src/img/anima-enemigosGalaxian.png', {frameWidth: 135, frameHeight: 95});
-  scene.load.spritesheet('explosion', './src/img/explosionSsheet.png', {frameWidth: 559, frameHeight: 636});
-
-  // scene.load.image('explo-nave', './src/img/explo-naveGalaxian.png');
-  // scene.load.image('explo-enemigos', './src/img/explo-enemigosGalaximi.png');
-
+  // scene.load.spritesheet('explosion', './src/img/explosionSsheet.png', {frameWidth: 559, frameHeight: 636});
+  scene.load.spritesheet('explosion', './src/img/explo-naveGalaxian.png', {frameWidth: 32, frameHeight: 32});
+  scene.load.image('particula', './src/img/particula-chispa.png');
+  
   // scene.load.image('gameover', './src/img/gameover.png');
   scene.load.spritesheet('boton-nueva-partida', './src/img/boton-nueva-partida-galaximi.png', {frameWidth: 251, frameHeight: 135});
 

@@ -4,7 +4,7 @@ export class Particulas {
 
     static NRO_PARTICULAS = 9;
     static NRO_PARTICULAS_TOTAL = 15 * Particulas.NRO_PARTICULAS;
-    static DURACION_PARTICULAS = 1400;
+    static DURACION_PARTICULAS = 1250;
 
     // ------------------------------------------------------
     constructor(scene) {
@@ -15,15 +15,15 @@ export class Particulas {
     create() {
 
         this.particulas = this.relatedScene.physics.add.group({
-            key: 'explosion',
-            frame: 0,
+            key: 'particula',
+            // frame: 0,
             setXY: { x: -5555, y: -5555, stepX: 100 },
             repeat: Particulas.NRO_PARTICULAS_TOTAL
         });
 
         this.particulas.children.iterate(particula => {
-            particula.setScale(0.02, 0.02);
-            particula.setScale(Phaser.Math.FloatBetween(0.01, 0.03), Phaser.Math.FloatBetween(0.01, 0.03));
+            particula.setTint(new Phaser.Display.Color(255, Phaser.Math.Between(40, 250), 0).color);
+            particula.setScale(Phaser.Math.FloatBetween(0.3, 1.1));
             particula.setActive(false).setVisible(false);
             // console.log(particula.body.width, particula.body.height);
         });

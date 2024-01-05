@@ -84,7 +84,7 @@ export class Game extends Phaser.Scene {
     this.jugador.update();
     this.disparo.update();
     this.enemigo.update();
-
+    
     // this.marcador.update(this.jugador.get().x, this.jugador.get().y);
   }
 
