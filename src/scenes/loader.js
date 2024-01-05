@@ -11,7 +11,7 @@ export function loader(scene) {
   // scene.load.spritesheet('explosion', './src/img/explosionSsheet.png', {frameWidth: 559, frameHeight: 636});
   scene.load.spritesheet('explosion', './src/img/explo-naveGalaxian.png', {frameWidth: 32, frameHeight: 32});
   scene.load.image('particula', './src/img/particula-chispa.png');
-  
+
   // scene.load.image('gameover', './src/img/gameover.png');
   scene.load.spritesheet('boton-nueva-partida', './src/img/boton-nueva-partida-galaximi.png', {frameWidth: 251, frameHeight: 135});
 
@@ -20,6 +20,8 @@ export function loader(scene) {
   // ---------------------------------------------------------------------------------
   let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
   scene.load.plugin('rexvirtualjoystickplugin', url, true);
+
+  scene.load.image('base-joystick', './src/img/base-joystick.png');
 
   // ---------------------------------------------------------------------------------
   //  Audio

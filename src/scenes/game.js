@@ -53,7 +53,8 @@ export class Game extends Phaser.Scene {
       x: 50,
       y: HEIGHT - 90,
       radius: 100,
-      base: this.add.circle(0, 0, 50, 0x888888),
+      // base: this.add.circle(0, 0, 50, 0x888888),
+      base: this.add.image(0, 0, 'base-joystick'),
       thumb: this.add.circle(0, 0, 25, 0xcccccc),
     });
 
@@ -84,7 +85,7 @@ export class Game extends Phaser.Scene {
     this.jugador.update();
     this.disparo.update();
     this.enemigo.update();
-    
+
     // this.marcador.update(this.jugador.get().x, this.jugador.get().y);
   }
 

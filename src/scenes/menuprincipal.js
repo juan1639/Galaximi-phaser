@@ -19,6 +19,12 @@ export class MenuPrincipal extends Phaser.Scene {
     } 
 
     preload() {
+        this.add.text(Math.floor(MenuPrincipal.WIDTH / 3), Math.floor(MenuPrincipal.HEIGHT / 2), ' Cargando... ', {
+            fontSize: '50px',
+            fill: '#ffa',
+            fontFamily: 'verdana, arial, sans-serif'
+        });
+
         loader(this);
     }
     

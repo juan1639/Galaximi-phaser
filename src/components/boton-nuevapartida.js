@@ -19,14 +19,15 @@ export class BotonNuevaPartida {
     
         this.boton.on('pointerover', () => {
           // this.boton.setFrame(1);
-          this.boton.setScale(1.1);
+          this.boton.setScale(1.0);
         });
         this.boton.on('pointerout', () => {
           // this.boton.setFrame(0);
           this.boton.setScale(0.7);
         });
         this.boton.on('pointerdown', () => {
-          this.relatedScene.scene.start('game');
+          this.relatedScene.sonidoMusicaFondo.pause();
+          this.relatedScene.scene.start('prenivel');
         });
 
         this.relatedScene.tweens.add({
