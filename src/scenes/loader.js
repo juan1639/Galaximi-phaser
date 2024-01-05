@@ -14,7 +14,7 @@ export function loader(scene) {
   // scene.load.image('explo-enemigos', './src/img/explo-enemigosGalaximi.png');
 
   // scene.load.image('gameover', './src/img/gameover.png');
-  scene.load.spritesheet('boton-nueva-partida', './src/img/playbutton.png', {frameWidth: 190, frameHeight: 49});
+  scene.load.spritesheet('boton-nueva-partida', './src/img/boton-nueva-partida-galaximi.png', {frameWidth: 251, frameHeight: 135});
 
   // ---------------------------------------------------------------------------------
   //  Pluggin Control Joystick-tactil

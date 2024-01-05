@@ -45,7 +45,6 @@ export class Game extends Phaser.Scene {
     this.sonidoNaveExplota = this.sound.add('sonidoNaveExplota');
     this.sonidoGalaxian = this.sound.add('sonidoGalaxian');
     this.sonidoIntroRetro = this.sound.add('sonidoIntroRetro');
-    this.sonidoMusicaFondo = this.sound.add('sonidoMusicaFondo');
 
     this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
     this.estrella.create();

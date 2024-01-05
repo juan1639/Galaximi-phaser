@@ -1,3 +1,4 @@
+import { Iniciar } from './scenes/iniciar.js';
 import { MenuPrincipal } from './scenes/menuprincipal.js';
 import { Game } from './scenes/game.js';
 // import { Congratulations } from './scenes/congratulations.js';
@@ -7,7 +8,7 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  scene: [MenuPrincipal, Game],
+  scene: [Iniciar, MenuPrincipal, Game],
   physics: {
     default: 'arcade',
     arcade: {

@@ -1,0 +1,54 @@
+
+// =================================================================================
+export class Iniciar extends Phaser.Scene {
+
+    static WIDTH = 800;
+    static HEIGHT = 600;
+
+    // ------------------------------------------------
+    constructor() {
+        super({ key: 'iniciar' });
+    }
+
+    create() {
+
+        // this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
+        this.size = 50;
+        this.left = Math.floor(Iniciar.WIDTH / 6.2);
+        this.top = Math.floor(Iniciar.HEIGHT / 3);
+        
+        this.add.text(this.left, this.top, ' Toque pantalla o haga ', {
+            fontSize: this.size + 'px',
+            fontStyle: '500',
+            align: 'left',
+            shadow: {
+                offsetX: 1,
+                offsetY: 1,
+                color: '#fff',
+                blur: 7,
+                fill: true
+            },
+            fill: '#ffa',
+            fontFamily: 'verdana, arial, sans-serif'
+        });
+
+        this.add.text(this.left, this.top + 100, ' click para comenzar... ', {
+            fontSize: this.size + 'px',
+            fontStyle: '500',
+            align: 'left',
+            shadow: {
+                offsetX: 1,
+                offsetY: 1,
+                color: '#fff',
+                blur: 7,
+                fill: true
+            },
+            fill: '#ffa',
+            fontFamily: 'verdana, arial, sans-serif'
+        });
+
+        this.input.on('pointerdown', () => this.scene.start('menuprincipal'));
+
+        console.log(this);
+    }
+}
