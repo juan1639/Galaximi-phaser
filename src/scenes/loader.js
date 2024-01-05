@@ -15,7 +15,7 @@ export function loader(scene) {
 
   // scene.load.image('gameover', './src/img/gameover.png');
   scene.load.spritesheet('boton-nueva-partida', './src/img/boton-nueva-partida-galaximi.png', {frameWidth: 251, frameHeight: 135});
-
+  
   // ---------------------------------------------------------------------------------
   //  Pluggin Control Joystick-tactil
   // ---------------------------------------------------------------------------------
@@ -23,6 +23,7 @@ export function loader(scene) {
   scene.load.plugin('rexvirtualjoystickplugin', url, true);
 
   scene.load.image('base-joystick', './src/img/base-joystick.png');
+  scene.load.image('boton-fire-joystick', './src/img/boton-fire-joystick.png');
 
   // ---------------------------------------------------------------------------------
   //  Audio

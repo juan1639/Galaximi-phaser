@@ -10,6 +10,7 @@ import { Marcador } from './../components/marcador.js';
 import { Enemigo } from './../components/enemigos2.js';
 import { Explosion } from '../components/explosion.js';
 import { Particulas } from '../components/particulas.js';
+import { BotonFire } from '../components/botonfire.js';
 
 const WIDTH = 800;
 const HEIGHT = 600;
@@ -30,6 +31,7 @@ export class Game extends Phaser.Scene {
     this.explosion = new Explosion(this);
     this.particulas = new Particulas(this);
     this.marcador = new Marcador(this);
+    this.botonfire = new BotonFire(this);
     // var joyStick = scene.plugins.get('rexvirtualjoystickplugin').addPlayer(scene, config);
   }
 
@@ -50,6 +52,11 @@ export class Game extends Phaser.Scene {
     this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
     this.estrella.create();
 
+    // this.gameoverImage = this.add.image(400, 90, 'gameover');
+    // this.gameoverImage.visible = false;
+
+    this.botonfire.create();
+
     this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
       x: 50,
       y: HEIGHT - 90,
@@ -58,9 +65,6 @@ export class Game extends Phaser.Scene {
       base: this.add.image(0, 0, 'base-joystick'),
       thumb: this.add.circle(0, 0, 25, 0xcccccc),
     });
-
-    // this.gameoverImage = this.add.image(400, 90, 'gameover');
-    // this.gameoverImage.visible = false;
 
     this.jugador.create(WIDTH, HEIGHT);
     this.disparo.create();
@@ -93,7 +97,7 @@ export class Game extends Phaser.Scene {
   // ================================================================
   inicia_disparo() {
 
-    if (this.jugador.controles.up.isDown || this.jugador.joystickCursors.up.isDown) {
+    if (this.jugador.controles.up.isDown || this.botonfire.isDown) {
 
       if (this.time.now > this.disparo.cadencia.bandera) {
 
