@@ -12,9 +12,6 @@ import { Explosion } from '../components/explosion.js';
 import { Particulas } from '../components/particulas.js';
 import { BotonFire } from '../components/botonfire.js';
 
-const WIDTH = 800;
-const HEIGHT = 600;
-
 // --------------------------------------------------------------
 export class Game extends Phaser.Scene {
 
@@ -59,14 +56,14 @@ export class Game extends Phaser.Scene {
 
     this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
       x: 50,
-      y: HEIGHT - 90,
+      y: this.sys.game.config.height - 90,
       radius: 100,
       // base: this.add.circle(0, 0, 50, 0x888888),
       base: this.add.image(0, 0, 'base-joystick'),
       thumb: this.add.circle(0, 0, 25, 0xcccccc),
     });
 
-    this.jugador.create(WIDTH, HEIGHT);
+    this.jugador.create();
     this.disparo.create();
     this.enemigo.create();
     this.explosion.create();

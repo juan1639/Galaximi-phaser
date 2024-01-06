@@ -1,10 +1,8 @@
 import { Estrella } from '../components/fondo.js';
+import { centrar_txt } from '../utils/functions.js';
 
 // ================================================================================
 export class PreNivel extends Phaser.Scene {
-
-    static WIDTH = 800;
-    static HEIGHT = 600;
 
     // -------------------------------------------------
     constructor() {
@@ -26,8 +24,8 @@ export class PreNivel extends Phaser.Scene {
         const nivel = 1;
 
         this.size = 70;
-        this.left = Math.floor(PreNivel.WIDTH / 3.2);
-        this.top = Math.floor(PreNivel.HEIGHT / 3);
+        this.left = Math.floor(this.sys.game.config.width / 3.2);
+        this.top = Math.floor(this.sys.game.config.height / 3);
         
         this.txt_titulo = this.add.text(this.left, this.top, ' Nivel ' + nivel, {
             fontSize: this.size + 'px',
@@ -44,6 +42,7 @@ export class PreNivel extends Phaser.Scene {
         });
 
         this.txt_titulo.setAlpha(0);
+        this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
 
         this.tweens.add({
             targets: this.txt_titulo,

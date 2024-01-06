@@ -1,3 +1,4 @@
+import { centrar_txt } from "../utils/functions.js";
 
 // =================================================================================
 export class Iniciar extends Phaser.Scene {
@@ -17,7 +18,7 @@ export class Iniciar extends Phaser.Scene {
         this.left = Math.floor(Iniciar.WIDTH / 6.2);
         this.top = Math.floor(Iniciar.HEIGHT / 3);
         
-        this.add.text(this.left, this.top, ' Toque pantalla o haga ', {
+        const txt1 = this.add.text(this.left, this.top, ' Toque pantalla o haga ', {
             fontSize: this.size + 'px',
             fontStyle: '500',
             align: 'left',
@@ -32,7 +33,9 @@ export class Iniciar extends Phaser.Scene {
             fontFamily: 'verdana, arial, sans-serif'
         });
 
-        this.add.text(this.left, this.top + 100, ' click para comenzar... ', {
+        txt1.setX(centrar_txt(txt1, this.sys.game.config.width));
+
+        const txt2 = this.add.text(this.left, this.top + 100, ' click para comenzar... ', {
             fontSize: this.size + 'px',
             fontStyle: '500',
             align: 'left',
@@ -46,6 +49,8 @@ export class Iniciar extends Phaser.Scene {
             fill: '#ffa',
             fontFamily: 'verdana, arial, sans-serif'
         });
+
+        txt2.setX(centrar_txt(txt1, this.sys.game.config.width));
 
         this.input.on('pointerdown', () => this.scene.start('menuprincipal'));
 

@@ -3,10 +3,7 @@ import { EnemigoApareciendo } from '../components/enemigos2.js';
 
 // ================================================================================
 export class AparecenEnemigos extends Phaser.Scene {
-
-    static WIDTH = 800;
-    static HEIGHT = 600;
-
+    
     // -------------------------------------------------
     constructor() {
         super({ key: 'aparecenenemigos' });

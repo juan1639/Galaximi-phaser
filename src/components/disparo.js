@@ -34,7 +34,7 @@ export class Disparo {
         });
 
         this.disparo.getChildren().forEach(disp => {
-            disp.setScale(0.6, 1);
+            disp.setScale(0.5, 1);
             disp.setActive(false).setVisible(false);
             disp.play('disparos-anim');
             // console.log(disp.body.width, disp.body.height);

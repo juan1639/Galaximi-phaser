@@ -10,6 +10,7 @@ const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
+  parent: 'contenedor',
   scene: [Iniciar, MenuPrincipal, PreNivel, AparecenEnemigos, Game],
   physics: {
     default: 'arcade',

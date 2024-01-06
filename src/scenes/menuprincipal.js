@@ -1,13 +1,11 @@
 import { loader } from './loader.js';
+import { centrar_txt } from '../utils/functions.js';
 import { Settings } from './settings.js';
 import { Estrella } from '../components/fondo.js';
 import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
 
 // =================================================================================
 export class MenuPrincipal extends Phaser.Scene {
-
-    static WIDTH = 800;
-    static HEIGHT = 600;
 
     // -------------------------------------------------
     constructor() {
@@ -25,11 +23,13 @@ export class MenuPrincipal extends Phaser.Scene {
     } 
 
     preload() {
-        this.add.text(Math.floor(MenuPrincipal.WIDTH / 3), Math.floor(MenuPrincipal.HEIGHT / 2), ' Cargando... ', {
+        const txt = this.add.text(Math.floor(this.sys.game.config.width / 2), Math.floor(this.sys.game.config.height / 2), ' Cargando...', {
             fontSize: '50px',
             fill: '#ffa',
             fontFamily: 'verdana, arial, sans-serif'
         });
+
+        txt.setX(centrar_txt(txt, this.sys.game.config.width));
 
         loader(this);
     }
@@ -43,8 +43,8 @@ export class MenuPrincipal extends Phaser.Scene {
         this.botoninicio.create();
         
         this.size = 90;
-        this.left = Math.floor(MenuPrincipal.WIDTH / 5.2);
-        this.top = Math.floor(MenuPrincipal.HEIGHT / 3);
+        this.left = Math.floor(this.sys.game.config.width / 5.2);
+        this.top = Math.floor(this.sys.game.config.height / 3);
         
         this.txt_titulo = this.add.text(this.left, this.top, ' GalaxIMI ', {
             fontSize: this.size + 'px',
@@ -59,6 +59,8 @@ export class MenuPrincipal extends Phaser.Scene {
             fill: '#aff',
             fontFamily: 'verdana, arial, sans-serif'
         });
+
+        this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
 
         this.sonidoMusicaFondo.play();
         this.sonidoMusicaFondo.volume = 0.4;

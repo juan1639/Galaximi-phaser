@@ -1,10 +1,8 @@
 import { Settings } from '../scenes/settings.js';
+import { centrar_txt } from '../utils/functions.js';
 
 // ========================================================================
 export class Enemigo {
-
-    static WIDTH = 800;
-    static HEIGHT = 600;
 
     static tileXY = [64, 64];
 
@@ -67,18 +65,19 @@ export class Enemigo {
 
     crea_anims(nivel) {
 
-        this.relatedScene.anims.create({
-            key: 'enemys-anim',
-            frames: this.relatedScene.anims.generateFrameNumbers('enemigos', { frames: [ 0, 1, 2] }),
-            frameRate: 5,
-            repeat: -1
-        });
+        const keysAnima = [
+            ['enemys-anim', 'enemigos'],
+            ['enemys2-anim', 'enemigos2']
+        ];
 
-        this.relatedScene.anims.create({
-            key: 'enemys2-anim',
-            frames: this.relatedScene.anims.generateFrameNumbers('enemigos2', { frames: [ 0, 1, 2] }),
-            frameRate: 5,
-            repeat: -1
+        keysAnima.forEach(anima => {
+
+            this.relatedScene.anims.create({
+                key: anima[0],
+                frames: this.relatedScene.anims.generateFrameNumbers(anima[1], { frames: [ 0, 1, 2] }),
+                frameRate: 5,
+                repeat: -1
+            });
         });
 
         if (nivel === 1) {
@@ -118,6 +117,7 @@ export class Enemigo {
                 marginTop: Math.floor(Enemigo.tileXY[1]),
                 EnemigoDeCadaTipo: [24, 24]
             };
+        
         } else if (nivel === 2) {
 
             return {
@@ -180,7 +180,8 @@ export class EnemigoApareciendo extends Enemigo {
         this.relatedScene.tweens.add({
             targets: this.enemigos.getChildren(),
             alpha: 1,
-            duration: 4300,
+            delay: 800,
+            duration: 4100
         });
 
         this.relatedScene.tweens.add({
@@ -192,8 +193,14 @@ export class EnemigoApareciendo extends Enemigo {
 
         this.crea_anims(Settings.getNivel());
 
-        this.txt_preparado = this.relatedScene.add.text(Math.floor(Enemigo.WIDTH / 2.5), Math.floor(Enemigo.HEIGHT / 1.4), ' Preparado...', {
+        const txtX = this.relatedScene.sys.game.config.width;
+        const txtY = this.relatedScene.sys.game.config.height;
+
+        this.txt_preparado = this.relatedScene.add.text(Math.floor(txtX / 2.6), Math.floor(txtY / 1.4), ' Preparado...', {
             fontSize: '30px',
+            style: {
+                align: 'center',
+            },
             shadow: {
                 offsetX: 1,
                 offsetY: 1,
@@ -206,6 +213,7 @@ export class EnemigoApareciendo extends Enemigo {
         });
 
         this.txt_preparado.setAlpha(0);
+        this.txt_preparado.setX(centrar_txt(this.txt_preparado, txtX));
 
         this.relatedScene.tweens.add({
             targets: this.txt_preparado,

@@ -11,9 +11,12 @@ export class Jugador {
         this.relatedScene = scene;
     }
 
-    create(WIDTH, HEIGHT) {
+    create() {
 
-        this.jugador = this.relatedScene.physics.add.sprite(Math.floor(WIDTH / 2), Math.floor(HEIGHT / 1.08), 'jugador');
+        const posIniX = this.relatedScene.sys.game.config.width;
+        const posIniY = this.relatedScene.sys.game.config.height;
+
+        this.jugador = this.relatedScene.physics.add.sprite(Math.floor(posIniX / 2), Math.floor(posIniY / 1.08), 'jugador');
         this.jugador.setScale(0.5, 0.5);
 
         this.jugador.setData('vel-x', Jugador.VEL_X);

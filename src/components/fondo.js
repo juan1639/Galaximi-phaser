@@ -1,9 +1,6 @@
 // =======================================================================
 export class Estrella {
-
-    static WIDTH = 800;
-    static HEIGHT = 600;
-
+    
     static NRO_STAR_AZULADAS = 39;
     static NRO_STAR_ROJIZAS = 49;
     static ESCALA_INICIAL = 0.01;
@@ -53,9 +50,9 @@ export class Estrella {
         Object.keys(this.estrellas).forEach(tipoStar => {
 
             this.estrellas[tipoStar].getChildren().forEach(star => {
-                if (star.y > Estrella.HEIGHT * 1.1) {
+                if (star.y > this.relatedScene.sys.game.config.height * 1.1) {
                     star.setY(Estrella.APARECER_ARRIBA);
-                    star.setX(Phaser.Math.Between(0, Estrella.WIDTH));
+                    star.setX(Phaser.Math.Between(0, this.relatedScene.sys.game.config.width));
                 }
             });
         });
@@ -65,8 +62,8 @@ export class Estrella {
 
         star.setScale(Estrella.ESCALA_INICIAL + Phaser.Math.FloatBetween(0, 0.12));
         star.setVelocityY(Phaser.Math.FloatBetween(5, 50));
-        star.setX(Phaser.Math.Between(0, Estrella.WIDTH));
-        star.setY(Phaser.Math.Between(0, Estrella.HEIGHT));
+        star.setX(Phaser.Math.Between(0, this.relatedScene.sys.game.config.width));
+        star.setY(Phaser.Math.Between(0, this.relatedScene.sys.game.config.height));
     }
 
     get() {

@@ -21,14 +21,12 @@ export class Explosion {
 
         this.relatedScene.anims.create({
             key: 'explosion-anim',
-            // frames: this.relatedScene.anims.generateFrameNumbers('explosion', { frames: [0, 1, 2, 3, 4, 5, 6, 7, 8] }),
             frames: this.relatedScene.anims.generateFrameNumbers('explosion', { frames: [1, 2, 3] }),
             frameRate: 15,
             repeat: -1
         });
 
         this.explosion.children.iterate(explo => {
-            // explo.setScale(0.15, 0.15);
             explo.setScale(2);
             explo.setActive(false).setVisible(false);
             explo.play('explosion-anim');
