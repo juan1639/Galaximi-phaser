@@ -1,5 +1,6 @@
 import { Estrella } from '../components/fondo.js';
 import { EnemigoApareciendo } from '../components/enemigos2.js';
+import { Marcador } from '../components/marcador.js';
 
 // ================================================================================
 export class AparecenEnemigos extends Phaser.Scene {
@@ -12,6 +13,7 @@ export class AparecenEnemigos extends Phaser.Scene {
     init() {
         this.estrella = new Estrella(this);
         this.enemigoapareciendo = new EnemigoApareciendo(this);
+        this.marcador = new Marcador(this);
     }
 
     create() {
@@ -21,6 +23,7 @@ export class AparecenEnemigos extends Phaser.Scene {
         this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
         this.estrella.create();
         this.enemigoapareciendo.create();
+        this.marcador.create();
 
         const duracionThisScene = 5000;
 

@@ -7,7 +7,8 @@ export class BotonNuevaPartida {
     this.relatedScene = scene;
   }
 
-  create() {
+  create(siguienteScene) {
+
     const ancho = this.relatedScene.sys.game.config.width;
     const alto = this.relatedScene.sys.game.config.height;
     this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 2), Math.floor(alto / 1.5), 'boton-nueva-partida').setInteractive();
@@ -23,8 +24,8 @@ export class BotonNuevaPartida {
       this.boton.setScale(0.7);
     });
     this.boton.on('pointerdown', () => {
-      this.relatedScene.sonidoMusicaFondo.pause();
-      this.relatedScene.scene.start('prenivel');
+      if (siguienteScene === 'prenivel') this.relatedScene.sonidoMusicaFondo.pause();
+      this.relatedScene.scene.start(siguienteScene);
     });
 
     this.relatedScene.tweens.add({

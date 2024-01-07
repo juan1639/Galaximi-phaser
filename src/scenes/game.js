@@ -6,11 +6,12 @@ import { loader } from './loader.js';
 import { Estrella } from './../components/fondo.js';
 import { Jugador } from './../components/jugador.js';
 import { Disparo } from '../components/disparo.js';
-import { Marcador } from './../components/marcador.js';
 import { Enemigo } from './../components/enemigos2.js';
 import { Explosion } from '../components/explosion.js';
 import { Particulas } from '../components/particulas.js';
+import { Marcador } from './../components/marcador.js';
 import { BotonFire } from '../components/botonfire.js';
+import { Settings } from './settings.js';
 
 // --------------------------------------------------------------
 export class Game extends Phaser.Scene {
@@ -55,12 +56,13 @@ export class Game extends Phaser.Scene {
     this.botonfire.create();
 
     this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-      x: 50,
+      x: 90,
       y: this.sys.game.config.height - 90,
       radius: 100,
       // base: this.add.circle(0, 0, 50, 0x888888),
-      base: this.add.image(0, 0, 'base-joystick'),
-      thumb: this.add.circle(0, 0, 25, 0xcccccc),
+      base: this.add.image(0, 0, 'base-joystick').setScale(2),
+      // thumb: this.add.circle(0, 0, 25, 0xcccccc),
+      thumb: this.add.image(0, 0, 'base-joystick').setScale(1)
     });
 
     this.jugador.create();
@@ -68,7 +70,7 @@ export class Game extends Phaser.Scene {
     this.enemigo.create();
     this.explosion.create();
     this.particulas.create();
-    // this.marcador.create();
+    this.marcador.create();
 
     console.log(this.jugador.controles, this.jugador.joystickCursors);
 
@@ -87,14 +89,14 @@ export class Game extends Phaser.Scene {
     this.jugador.update();
     this.disparo.update();
     this.enemigo.update();
-
-    // this.marcador.update(this.jugador.get().x, this.jugador.get().y);
   }
 
   // ================================================================
   inicia_disparo() {
 
-    if (this.jugador.controles.up.isDown || this.botonfire.isDown) {
+    if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
+
+    if (this.jugador.controles.space.isDown || this.botonfire.isDown) {
 
       if (this.time.now > this.disparo.cadencia.bandera) {
 
@@ -164,6 +166,10 @@ export class Game extends Phaser.Scene {
     disparo.setActive(false).setVisible(false).setX(-9999);
     enemigo.setActive(false).setVisible(false).setX(7777);
 
+    const bonus = Settings.getPuntos() + enemigo.getData('puntos');
+    Settings.setPuntos(bonus);
+    console.log(bonus, Settings.getPuntos());
+    
     this.sonidoExplosion.play();
 
     if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');

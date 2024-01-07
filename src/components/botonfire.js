@@ -13,16 +13,16 @@ export class BotonFire {
     create() {
         const ancho = BotonFire.WIDTH;
         const alto = BotonFire.HEIGHT;
-        this.boton = this.relatedScene.add.image(ancho - 50, alto - 90, 'boton-fire-joystick').setInteractive();
-        this.boton.setScale(1);
+        this.boton = this.relatedScene.add.image(ancho - 90, alto - 90, 'boton-fire-joystick').setInteractive();
+        this.boton.setScale(2);
         this.isDown = false;
     
         this.boton.on('pointerover', () => {
-          this.boton.setScale(1.05);
+          this.boton.setScale(2.07);
         });
 
         this.boton.on('pointerout', () => {
-          this.boton.setScale(1);
+          this.boton.setScale(2);
         });
 
         this.boton.on('pointerdown', () => {

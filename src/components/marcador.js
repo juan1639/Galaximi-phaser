@@ -1,3 +1,6 @@
+import { Settings } from "../scenes/settings.js";
+import { centrar_txt } from "../utils/functions.js";
+
 // ===========================================================================
 export class Marcador {
 
@@ -7,27 +10,50 @@ export class Marcador {
 
     create() {
 
-        this.size = 20;
-
-        this.left = Math.floor(Laberinto.WIDTH / 2);
-        this.top = Math.floor(Laberinto.HEIGHT / 2);
-        
-        this.marcador = this.relatedScene.add.text(0, 0, ' Puntos: 0', { fontSize: this.size + 'px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
-        console.log(this.marcador);
+        this.inicializar();
     }
 
-    update(x, y) {
+    update() {
 
-        this.marcador.setX(x - this.left);
-        this.marcador.setY(y - this.top);
+    }
 
-        if (this.marcador.x < 0) this.marcador.setX(0);
-        if (this.marcador.x > 360) this.marcador.setX(360);
-        if (this.marcador.y < 0) this.marcador.setY(0);
-        if (this.marcador.y > 328) this.marcador.setY(328);
+    inicializar() {
+
+        this.marcadores = this.relatedScene.add.group();
+
+        const ancho = this.relatedScene.sys.game.config.width;
+        const alto = this.relatedScene.sys.game.config.height;
+
+        const args = [
+            [ ' Puntos: ', 20, '#fff', '#2ef', 7, 0, 0, Settings.getPuntos() ],
+            [ ' Nivel: ', 20, '#fff', '#2ef', 7, Math.floor(ancho / 2), 0, Settings.getNivel() ],
+            [ ' Record: ', 20, '#fff', '#2ef', 7, Math.floor(ancho / 1.3), 0, Settings.getRecord() ]
+        ];
+
+        args.forEach((arg, index) => {
+
+            let cadaMarcador = this.relatedScene.add.text(arg[5], arg[6], arg[0] + arg[7], {
+                fontSize: arg[1] + 'px',
+                fill: arg[2],
+                fontFamily: 'verdana, arial, sans-serif',
+                shadow: {
+                    offsetX: 1,
+                    offsetY: 1,
+                    color: arg[3],
+                    blur: arg[4],
+                    fill: true
+                }
+            });
+
+            if (index === 1) cadaMarcador.setX(centrar_txt(cadaMarcador, ancho));
+
+            this.marcadores.add(cadaMarcador);
+        });
+
+        console.log(this.marcadores);
     }
 
     get() {
-        return this.marcador;
+        return this.marcadores;
     }
 }

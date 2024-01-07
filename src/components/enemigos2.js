@@ -61,6 +61,7 @@ export class Enemigo {
 
         ene.setAngle(350);
         ene.setScale(0.4);
+        ene.setData('puntos', 100 + Phaser.Math.Between(0, 9) * 10);
     }
 
     crea_anims(nivel) {

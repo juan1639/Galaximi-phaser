@@ -36,12 +36,13 @@ export class MenuPrincipal extends Phaser.Scene {
     
     create() {
 
+        const aparecerBoton = 3200;
+
         this.sonidoMusicaFondo = this.sound.add('sonidoMusicaFondo');
 
         this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
         this.estrella.create();
-        this.botoninicio.create();
-        
+
         this.size = 90;
         this.left = Math.floor(this.sys.game.config.width / 5.2);
         this.top = Math.floor(this.sys.game.config.height / 3);
@@ -61,6 +62,17 @@ export class MenuPrincipal extends Phaser.Scene {
         });
 
         this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
+
+        this.timeline = this.add.timeline([
+            {
+              at: aparecerBoton,
+              run: () => {
+                this.botoninicio.create('prenivel');
+              }
+            }
+        ]);
+        
+        this.timeline.play();
 
         this.sonidoMusicaFondo.play();
         this.sonidoMusicaFondo.volume = 0.4;

@@ -3,6 +3,7 @@ export class Settings {
 
     static puntos = 0;
     static nivel = 1;
+    static hi = 3000;
     static vidas = 3;
 
     static getPuntos() {
@@ -11,6 +12,10 @@ export class Settings {
 
     static getNivel() {
         return Settings.nivel;
+    }
+
+    static getRecord() {
+        return Settings.hi;
     }
 
     static getVidas() {
@@ -23,6 +28,10 @@ export class Settings {
 
     static setNivel(level) {
         Settings.nivel = level;
+    }
+
+    static setRecord(hiScore) {
+        Settings.hi = hiScore;
     }
 
     static setVidas(lifes) {

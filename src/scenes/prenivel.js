@@ -1,5 +1,6 @@
 import { Estrella } from '../components/fondo.js';
 import { centrar_txt } from '../utils/functions.js';
+import { Marcador } from '../components/marcador.js';
 
 // ================================================================================
 export class PreNivel extends Phaser.Scene {
@@ -11,6 +12,7 @@ export class PreNivel extends Phaser.Scene {
 
     init() {
         this.estrella = new Estrella(this);
+        this.marcador = new Marcador(this);
     }
 
     create() {
@@ -19,6 +21,7 @@ export class PreNivel extends Phaser.Scene {
 
         this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
         this.estrella.create();
+        this.marcador.create();
 
         const duracionThisScene = 5000;
         const nivel = 1;
