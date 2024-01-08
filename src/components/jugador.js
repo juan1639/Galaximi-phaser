@@ -20,6 +20,7 @@ export class Jugador {
         this.jugador = this.relatedScene.physics.add.sprite(posIniX, posIniY, 'jugador');
         this.jugador.setScale(0.5, 0.5);
 
+        this.jugador.setData('posIni', [posIniX, posIniY]);
         this.jugador.setData('vel-x', Jugador.VEL_X);
         this.jugador.setData('acel-x', Jugador.ACEL_X);
         this.jugador.setData('vel-y', Jugador.VEL_Y);
@@ -38,12 +39,10 @@ export class Jugador {
         if (this.controles.left.isDown || this.relatedScene.crucetaleft.isDown) {
 
             this.jugador.setVelocityX(-this.jugador.getData('vel-x'));
-            // this.jugador.setAccelerationX(-this.jugador.getData('acel-x'));
             
         } else if (this.controles.right.isDown  || this.relatedScene.crucetaright.isDown) {
 
             this.jugador.setVelocityX(this.jugador.getData('vel-x'));
-            // this.jugador.setAccelerationX(this.jugador.getData('acel-x'));
         
         } else {
             this.jugador.setVelocityX(0);
@@ -54,4 +53,3 @@ export class Jugador {
         return this.jugador;
     }
 }
-

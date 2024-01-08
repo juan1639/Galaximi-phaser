@@ -1,46 +1,41 @@
 import { Settings } from "../scenes/settings.js";
 import { Disparo } from "../components/disparo.js";
-
-// ===============================================================================
-function centrar_txt(texto, anchoScreen) {
-
-    console.log(texto.width);
-    return Math.floor(anchoScreen / 2 - texto.width / 2);
-}
+import { Particulas } from "../components/particulas.js";
+import { Explosion } from "../components/explosion.js";
+import { Jugador } from "../components/jugador.js";
 
 // ===============================================================================
 function inicia_disparo(jugador, scene, botonfire, time, disparo, sonidoDisparo) {
 
-    if (jugador.controles.shift.isDown) scene.start('gameover');
+  if (jugador.controles.shift.isDown) scene.start('gameover');
 
-    if (jugador.controles.space.isDown || botonfire.isDown) {
+  if (jugador.controles.space.isDown || botonfire.isDown) {
 
-      if (time.now > disparo.cadencia.bandera) {
+    if (time.now > disparo.cadencia.bandera) {
 
-        console.log('disparo');
-        let buscar = false;
+      console.log('disparo');
+      let buscar = false;
 
-        disparo.get().getChildren().forEach(disp => {
+      disparo.get().getChildren().forEach(disp => {
 
-          console.log(disp.active);
+        console.log(disp.active);
 
-          if (!disp.active && !disp.visible && !buscar) {
-            buscar = true;
-            disp.setActive(true).setVisible(true);
-            disp.setX(jugador.get().x);
-            disp.setY(jugador.get().y - Math.floor(jugador.get().body.height / 2));
-            disp.setVelocityY(Disparo.VEL_Y);
-            disp.setAlpha(0.9);
-            sonidoDisparo.play();
-          }
-        });
+        if (!disp.active && !disp.visible && !buscar) {
+          buscar = true;
+          disp.setActive(true).setVisible(true);
+          disp.enableBody(true, jugador.get().x, jugador.get().y - Math.floor(jugador.get().body.height / 2), true, true);
+          disp.setVelocityY(Disparo.VEL_Y);
+          disp.setAlpha(0.9);
+          sonidoDisparo.play();
+        }
+      });
 
-        disparo.cadencia.bandera = time.now + disparo.cadencia.disparo;
-      }
+      disparo.cadencia.bandera = time.now + disparo.cadencia.disparo;
     }
+  }
 }
 
-// ================================================================
+// ==============================================================================
 function inicia_disparo_enemigos() {
 
     let buscar = false;
@@ -76,7 +71,7 @@ function inicia_disparo_enemigos() {
     });
 }
 
-// ================================================================
+// ==================================================================================
 function settings_disparo_enemigo(disp, ene) {
 
     disp.setActive(true).setVisible(true);
@@ -88,7 +83,7 @@ function settings_disparo_enemigo(disp, ene) {
     disp.setAlpha(1);
 }
 
-// ================================================================
+// ==================================================================================
 function colisionVsEnemigo(enemigo, disparo) {
 
     console.log('colision...disparo-enemigo');
@@ -103,7 +98,7 @@ function colisionVsEnemigo(enemigo, disparo) {
         particula.setActive(true).setVisible(true);
         particula.setX(enemigo.x);
         particula.setY(enemigo.y);
-        particula.setVelocity(Phaser.Math.Between(-180, 180), Phaser.Math.Between(-120, 120));
+        particula.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(-180, 180));
         particula.setAlpha(1.0);
 
         setTimeout(() => {
@@ -112,6 +107,7 @@ function colisionVsEnemigo(enemigo, disparo) {
       }
     });
 
+    // ----------------------------------------------------------
     let buscar = false;
 
     this.explosion.get().children.iterate(explo => {
@@ -129,13 +125,11 @@ function colisionVsEnemigo(enemigo, disparo) {
       }
     });
 
-    disparo.setActive(false).setVisible(false).setX(-9999);
-    enemigo.setActive(false).setVisible(false).setX(7777);
+    // ---------------------------------------------------------
+    disparo.setActive(false).setVisible(false).disableBody(true, true);
+    enemigo.setActive(false).setVisible(false).disableBody(true, true);
 
-    const bonus = Settings.getPuntos() + enemigo.getData('puntos');
-    Settings.setPuntos(bonus);
-    console.log(bonus, Settings.getPuntos());
-
+    suma_puntos(enemigo);
     this.marcador.update(0, Settings.getPuntos()); // 0 = actualizar puntos
     
     this.sonidoExplosion.play();
@@ -144,9 +138,48 @@ function colisionVsEnemigo(enemigo, disparo) {
     console.log(this.enemigo.get().countActive());
 }
 
+// ===================================================================================
+function colisionJugadorVsEnemigo(jugador, enemigo) {
+
+  console.log('colision...disparo-enemigo');
+  console.log(enemigo, jugador);
+  console.log(jugador.getData('posIni'));
+
+  setTimeout(() => {
+    jugador.setActive(true).setVisible(true).enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
+  }, Jugador.REVIVIR_PAUSA);
+
+  jugador.setActive(false).setVisible(false).disableBody(true, true);
+
+  suma_puntos(enemigo);
+  this.marcador.update(0, Settings.getPuntos()); // 0 = actualizar puntos
+
+  enemigo.setActive(false).setVisible(false).disableBody(true, true);
+  this.sonidoExplosion.play();
+
+  if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');
+  console.log(this.enemigo.get().countActive());
+}
+
+// =================================================================================
+function centrar_txt(texto, anchoScreen) {
+  
+  console.log(texto.width);
+  return Math.floor(anchoScreen / 2 - texto.width / 2);
+}
+
+// =================================================================================
+function suma_puntos(puntos) {
+
+  const bonus = Settings.getPuntos() + puntos.getData('puntos');
+  Settings.setPuntos(bonus);
+  console.log(bonus, Settings.getPuntos());
+}
+
 export {
     centrar_txt,
     inicia_disparo,
     inicia_disparo_enemigos,
-    colisionVsEnemigo
+    colisionVsEnemigo,
+    colisionJugadorVsEnemigo
 };

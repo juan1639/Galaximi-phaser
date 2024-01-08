@@ -7,7 +7,8 @@ import { loader } from './loader.js';
 import { 
   inicia_disparo,
   inicia_disparo_enemigos,
-  colisionVsEnemigo
+  colisionVsEnemigo,
+  colisionJugadorVsEnemigo
 } from '../utils/functions.js';
 
 import { Estrella } from './../components/fondo.js';
@@ -85,7 +86,8 @@ export class Game extends Phaser.Scene {
     this.particulas.create();
     this.marcador.create();
 
-    // this.physics.add.collider(this.enemigo.get(), this.disparo.get(), colisionVsEnemigo, null, this);
+    this.physics.add.collider(this.enemigo.get(), this.disparo.get(), colisionVsEnemigo, null, this);
+    this.physics.add.overlap(this.enemigo.get(), this.jugador.get(), colisionJugadorVsEnemigo, null, this);
   }
 
   // ================================================================

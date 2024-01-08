@@ -3,7 +3,7 @@
 export class Explosion {
 
     static NRO_EXPLOSIONES = 9;
-    static DURACION_EXPLO = 1080;
+    static DURACION_EXPLO = 1000;
 
     // ------------------------------------------------------
     constructor(scene) {
