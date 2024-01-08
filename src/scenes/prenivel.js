@@ -1,6 +1,7 @@
 import { Estrella } from '../components/fondo.js';
 import { centrar_txt } from '../utils/functions.js';
 import { Marcador } from '../components/marcador.js';
+import { Settings } from './settings.js';
 
 // ================================================================================
 export class PreNivel extends Phaser.Scene {
@@ -24,13 +25,12 @@ export class PreNivel extends Phaser.Scene {
         this.marcador.create();
 
         const duracionThisScene = 5000;
-        const nivel = 1;
 
         this.size = 70;
         this.left = Math.floor(this.sys.game.config.width / 3.2);
         this.top = Math.floor(this.sys.game.config.height / 3);
         
-        this.txt_titulo = this.add.text(this.left, this.top, ' Nivel ' + nivel, {
+        this.txt_titulo = this.add.text(this.left, this.top, ' Nivel ' + Settings.getNivel(), {
             fontSize: this.size + 'px',
             fontStyle: 'bold',
             shadow: {

@@ -9,7 +9,8 @@ export function loader(scene) {
 
   scene.load.spritesheet('enemigos', './src/img/anima-enemigosGalaxian.png', {frameWidth: 135, frameHeight: 95});
   scene.load.spritesheet('enemigos2', './src/img/anima-enemigosGalaxian2.png', {frameWidth: 135, frameHeight: 95});
-  // scene.load.spritesheet('explosion', './src/img/explosionSsheet.png', {frameWidth: 559, frameHeight: 636});
+  // scene.load.image('disparo-ene', './src/img/estrella-rojiza.png');
+  scene.load.spritesheet('disparo-ene', './src/img/shinobi-pow.png', {frameWidth: 18, frameHeight: 9});
   scene.load.spritesheet('explosion', './src/img/explo-naveGalaxian.png', {frameWidth: 32, frameHeight: 32});
   scene.load.image('particula', './src/img/particula-chispa.png');
 
@@ -20,11 +21,13 @@ export function loader(scene) {
   //  Pluggin Control Joystick-tactil
   // ---------------------------------------------------------------------------------
   let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
-  scene.load.plugin('rexvirtualjoystickplugin', url, true);
+  // scene.load.plugin('rexvirtualjoystickplugin', url, true);
 
   scene.load.image('base-joystick', './src/img/base-joystick.png');
   scene.load.image('boton-fire-joystick', './src/img/boton-fire-joystick.png');
-
+  scene.load.image('cruceta-left', './src/img/left.png');
+  scene.load.image('cruceta-right', './src/img/right.png');
+  
   // ---------------------------------------------------------------------------------
   //  Audio
   // ---------------------------------------------------------------------------------

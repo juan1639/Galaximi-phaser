@@ -3,15 +3,22 @@
 // 
 // -----------------------------------------------------------------------------------------
 import { loader } from './loader.js';
+
+import { 
+  inicia_disparo,
+  inicia_disparo_enemigos,
+  colisionVsEnemigo
+} from '../utils/functions.js';
+
 import { Estrella } from './../components/fondo.js';
 import { Jugador } from './../components/jugador.js';
 import { Disparo } from '../components/disparo.js';
 import { Enemigo } from './../components/enemigos2.js';
+import { DisparoEnemigo } from '../components/disparo-ene.js';
 import { Explosion } from '../components/explosion.js';
 import { Particulas } from '../components/particulas.js';
 import { Marcador } from './../components/marcador.js';
-import { BotonFire } from '../components/botonfire.js';
-import { Settings } from './settings.js';
+import { BotonFire, CrucetaDireccion } from '../components/botonfire.js';
 
 // --------------------------------------------------------------
 export class Game extends Phaser.Scene {
@@ -26,10 +33,13 @@ export class Game extends Phaser.Scene {
     this.jugador = new Jugador(this);
     this.disparo = new Disparo(this);
     this.enemigo = new Enemigo(this);
+    this.disparoenemigo = new DisparoEnemigo(this);
     this.explosion = new Explosion(this);
     this.particulas = new Particulas(this);
     this.marcador = new Marcador(this);
     this.botonfire = new BotonFire(this);
+    this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: 70, y: 55 });
+    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 250, y: 55 });
     // var joyStick = scene.plugins.get('rexvirtualjoystickplugin').addPlayer(scene, config);
   }
 
@@ -54,8 +64,10 @@ export class Game extends Phaser.Scene {
     // this.gameoverImage.visible = false;
 
     this.botonfire.create();
+    this.crucetaleft.create();
+    this.crucetaright.create();
 
-    this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+    /* this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
       x: 90,
       y: this.sys.game.config.height - 90,
       radius: 100,
@@ -63,18 +75,17 @@ export class Game extends Phaser.Scene {
       base: this.add.image(0, 0, 'base-joystick').setScale(2),
       // thumb: this.add.circle(0, 0, 25, 0xcccccc),
       thumb: this.add.image(0, 0, 'base-joystick').setScale(1)
-    });
+    }); */
 
     this.jugador.create();
     this.disparo.create();
     this.enemigo.create();
+    this.disparoenemigo.create();
     this.explosion.create();
     this.particulas.create();
     this.marcador.create();
 
-    console.log(this.jugador.controles, this.jugador.joystickCursors);
-
-    this.physics.add.collider(this.enemigo.get(), this.disparo.get(), this.colisionVsEnemigo, null, this);
+    // this.physics.add.collider(this.enemigo.get(), this.disparo.get(), colisionVsEnemigo, null, this);
   }
 
   // ================================================================
@@ -83,101 +94,13 @@ export class Game extends Phaser.Scene {
     // const pointer = this.input.activePointer;
     // console.log(pointer.worldX, pointer.worldY);
 
-    this.inicia_disparo();
+    inicia_disparo(this.jugador, this.scene, this.botonfire, this.time, this.disparo, this.sonidoDisparo);
+    // inicia_disparo_enemigos();
 
     this.estrella.update();
     this.jugador.update();
     this.disparo.update();
     this.enemigo.update();
+    this.disparoenemigo.update();
   }
-
-  // ================================================================
-  inicia_disparo() {
-
-    if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
-
-    if (this.jugador.controles.space.isDown || this.botonfire.isDown) {
-
-      if (this.time.now > this.disparo.cadencia.bandera) {
-
-        console.log('disparo');
-        let buscar = false;
-
-        this.disparo.get().getChildren().forEach(disp => {
-
-          console.log(disp.active);
-
-          if (!disp.active && !disp.visible && !buscar) {
-            buscar = true;
-            disp.setActive(true).setVisible(true);
-            disp.setX(this.jugador.get().x);
-            disp.setY(this.jugador.get().y - Math.floor(this.jugador.get().body.height / 2));
-            disp.setVelocityY(Disparo.VEL_Y);
-            disp.setAlpha(0.9);
-            this.sonidoDisparo.play();
-          }
-        });
-
-        this.disparo.cadencia.bandera = this.time.now + this.disparo.cadencia.disparo;
-      }
-    }
-  }
-
-  // ================================================================
-  colisionVsEnemigo(enemigo, disparo) {
-
-    console.log('colision...disparo-enemigo');
-
-    let buscarParticula = 0;
-
-    this.particulas.get().children.iterate(particula => {
-
-      if (!particula.active && !particula.visible && buscarParticula < Particulas.NRO_PARTICULAS) {
-        buscarParticula ++;
-        particula.setActive(true).setVisible(true);
-        particula.setX(enemigo.x);
-        particula.setY(enemigo.y);
-        particula.setVelocity(Phaser.Math.Between(-180, 180), Phaser.Math.Between(-120, 120));
-        particula.setAlpha(1.0);
-
-        setTimeout(() => {
-          particula.setActive(false).setVisible(false);
-        }, Particulas.DURACION_PARTICULAS);
-      }
-    });
-
-    let buscar = false;
-
-    this.explosion.get().children.iterate(explo => {
-
-      if (!explo.active && !explo.visible && !buscar) {
-        buscar = true;
-        explo.setActive(true).setVisible(true);
-        explo.setX(enemigo.x);
-        explo.setY(enemigo.y);
-        explo.setAlpha(1.0);
-
-        setTimeout(() => {
-          explo.setActive(false).setVisible(false);
-        }, Explosion.DURACION_EXPLO);
-      }
-    });
-
-    disparo.setActive(false).setVisible(false).setX(-9999);
-    enemigo.setActive(false).setVisible(false).setX(7777);
-
-    const bonus = Settings.getPuntos() + enemigo.getData('puntos');
-    Settings.setPuntos(bonus);
-    console.log(bonus, Settings.getPuntos());
-    
-    this.sonidoExplosion.play();
-
-    if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');
-  }
-
-  // ================================================================
-  /* comePuntito(jugador, puntito) {
-
-    puntito.disableBody(true, true);
-  } */
 }

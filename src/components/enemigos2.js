@@ -41,6 +41,7 @@ export class Enemigo {
             repeat: -1
         });
 
+        this.crea_enemigos_descendentes();
         this.crea_anims(Settings.getNivel());
 
         console.log(this.enemigos.getChildren());
@@ -61,7 +62,45 @@ export class Enemigo {
 
         ene.setAngle(350);
         ene.setScale(0.4);
+        ene.setDepth(2);
         ene.setData('puntos', 100 + Phaser.Math.Between(0, 9) * 10);
+    }
+
+    crea_enemigos_descendentes() {
+
+        let frecuencia = 7000 - Settings.getNivel() * 500;
+        if (frecuencia <= 2500) frecuencia = 2500;
+
+        const hastaAbajo = 100 - Settings.getNivel() * 10;
+        if (hastaAbajo <= 0) hastaAbajo = 0;
+
+        let descender = [];
+
+        if (Settings.getNivel() === 1) {
+
+            this.enemigos.children.iterate((ene, index) => {
+
+                if (index >= 24) descender.push(ene);
+            });
+
+        } else {
+
+            this.enemigos.children.iterate((ene, index) => {
+
+                descender.push(ene);
+            });
+        }
+
+        this.relatedScene.tweens.add({
+            targets: descender,
+            y: this.relatedScene.sys.game.config.height - hastaAbajo,
+            ease: 'sine.out',
+            duration: 1000,
+            yoyo: true,
+            delay: 5500,
+            repeat: -1,
+            repeatDelay: frecuencia
+        });
     }
 
     crea_anims(nivel) {
@@ -94,6 +133,14 @@ export class Enemigo {
 
         } else {
 
+            this.enemigos.getChildren().forEach((ene, index) => {
+
+                if (index < 24) {
+                    ene.play('enemys-anim');
+                } else {
+                    ene.play('enemys2-anim');
+                }
+            });
         }
     }
 
@@ -115,7 +162,8 @@ export class Enemigo {
                 recorrido: 60,
                 // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
                 marginLeft: 0,
-                marginTop: Math.floor(Enemigo.tileXY[1]),
+                // marginTop: Math.floor(Enemigo.tileXY[1]),
+                marginTop: 0,
                 EnemigoDeCadaTipo: [24, 24]
             };
         
@@ -124,21 +172,21 @@ export class Enemigo {
             return {
                 x: 0,
                 velX: 2,
-                recorrido: 40,
+                recorrido: 60,
                 // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
                 marginLeft: 0,
-                marginTop: Math.floor(Enemigo.tileXY[1]),
+                marginTop: 0,
                 EnemigoDeCadaTipo: [24, 24]
             };
         } 
 
         return {
             x: 0,
-            velX: 1,
+            velX: 2,
             recorrido: 60,
             // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
             marginLeft: 0,
-            marginTop: Math.floor(Enemigo.tileXY[1]),
+            marginTop: 0,
             EnemigoDeCadaTipo: [24, 24]
         };
     }
@@ -192,6 +240,7 @@ export class EnemigoApareciendo extends Enemigo {
             repeat: 4
         });
 
+        this.crea_enemigos_descendentesApareciendo();
         this.crea_anims(Settings.getNivel());
 
         const txtX = this.relatedScene.sys.game.config.width;
@@ -235,6 +284,17 @@ export class EnemigoApareciendo extends Enemigo {
         ene.setAngle(0);
         ene.setScale(0.4);
         ene.setAlpha(0);
+    }
+
+    crea_enemigos_descendentesApareciendo() {
+
+        this.relatedScene.tweens.add({
+            targets: this.enemigos.getChildren(),
+            y: -this.relatedScene.sys.game.config.height,
+            ease: 'sine.out',
+            duration: 2400,
+            yoyo: true
+        });
     }
 }
 

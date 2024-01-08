@@ -5,6 +5,7 @@ export class Jugador {
     static VEL_X = 520;
     static ACEL_X = 500;
     static VEL_Y = 0;
+    static REVIVIR_PAUSA = 4000;
 
     // ------------------------------------------------------------
     constructor(scene) {
@@ -13,10 +14,10 @@ export class Jugador {
 
     create() {
 
-        const posIniX = this.relatedScene.sys.game.config.width;
-        const posIniY = this.relatedScene.sys.game.config.height;
+        const posIniX = Math.floor(this.relatedScene.sys.game.config.width / 2);
+        const posIniY = Math.floor(this.relatedScene.sys.game.config.height / 1.08);
 
-        this.jugador = this.relatedScene.physics.add.sprite(Math.floor(posIniX / 2), Math.floor(posIniY / 1.08), 'jugador');
+        this.jugador = this.relatedScene.physics.add.sprite(posIniX, posIniY, 'jugador');
         this.jugador.setScale(0.5, 0.5);
 
         this.jugador.setData('vel-x', Jugador.VEL_X);
@@ -26,30 +27,20 @@ export class Jugador {
         this.jugador.setBounce(0.2);
 
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
-        this.joystickCursors = this.relatedScene.joyStick.createCursorKeys();
+        // this.joystickCursors = this.relatedScene.joyStick.createCursorKeys();
 
         console.log(this.controles);
-
-        /* this.timeline = this.relatedScene.add.timeline([
-            {
-                at: this.disparo.cadencia,
-                run: () => { this.disparo.bandera = true }
-            }
-        ]);
-
-        this.timeline.play(); */
-
-        console.log(this.jugador);
+        console.log(this.jugador, this.jugador.x, this.jugador.body.width, this.jugador.width);
     }
 
     update() {
 
-        if (this.controles.left.isDown || this.joystickCursors.left.isDown) {
+        if (this.controles.left.isDown || this.relatedScene.crucetaleft.isDown) {
 
             this.jugador.setVelocityX(-this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(-this.jugador.getData('acel-x'));
             
-        } else if (this.controles.right.isDown  || this.joystickCursors.right.isDown) {
+        } else if (this.controles.right.isDown  || this.relatedScene.crucetaright.isDown) {
 
             this.jugador.setVelocityX(this.jugador.getData('vel-x'));
             // this.jugador.setAccelerationX(this.jugador.getData('acel-x'));
