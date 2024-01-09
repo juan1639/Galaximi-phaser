@@ -22,8 +22,8 @@ export class Particulas {
         });
 
         this.particulas.children.iterate(particula => {
-            particula.setTint(new Phaser.Display.Color(255, Phaser.Math.Between(55, 255), 0).color);
-            particula.setScale(Phaser.Math.FloatBetween(0.3, 1.5));
+            particula.setTint(new Phaser.Display.Color(255, Phaser.Math.Between(125, 255), 0).color);
+            particula.setScale(Phaser.Math.FloatBetween(0.4, 1.3));
             particula.setActive(false).setVisible(false);
             // console.log(particula.body.width, particula.body.height);
         });

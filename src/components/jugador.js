@@ -6,6 +6,7 @@ export class Jugador {
     static ACEL_X = 500;
     static VEL_Y = 0;
     static REVIVIR_PAUSA = 4000;
+    static DURACION_EXPLO = 1150;
 
     // ------------------------------------------------------------
     constructor(scene) {
@@ -19,6 +20,7 @@ export class Jugador {
 
         this.jugador = this.relatedScene.physics.add.sprite(posIniX, posIniY, 'jugador');
         this.jugador.setScale(0.5, 0.5);
+        this.jugador.setAlpha(1);
 
         this.jugador.setData('posIni', [posIniX, posIniY]);
         this.jugador.setData('vel-x', Jugador.VEL_X);

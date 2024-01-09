@@ -1,5 +1,6 @@
 import { Settings } from "../scenes/settings.js";
 import { Disparo } from "../components/disparo.js";
+import { DisparoEnemigo } from "../components/disparo-ene.js";
 import { Particulas } from "../components/particulas.js";
 import { Explosion } from "../components/explosion.js";
 import { Jugador } from "../components/jugador.js";
@@ -36,51 +37,69 @@ function inicia_disparo(jugador, scene, botonfire, time, disparo, sonidoDisparo)
 }
 
 // ==============================================================================
-function inicia_disparo_enemigos() {
+function inicia_disparo_enemigos(scene) {
 
-    let buscar = false;
+  let buscar = false;
 
-    this.enemigo.get().children.iterate(ene => {
+  scene.enemigo.get().children.iterate(ene => {
 
-      if (ene.x < this.jugador.get().x + this.jugador.get().width && ene.x + ene.width > this.jugador.get().x) {
+    if (ene.x < scene.jugador.get().x + scene.jugador.get().width && ene.x + ene.width > scene.jugador.get().x && ene.body.enable) {
 
-        this.disparoenemigo.get().getChildren().forEach(disp => {
+      scene.disparoenemigo.get().getChildren().forEach(disp => {
 
-          // console.log(disp.active);
+        // console.log(disp.active);
 
-          if (!disp.active && !disp.visible && !buscar && this.time.now > this.disparoenemigo.cadencia.bandera) {
+        if (!disp.active && !disp.visible && !buscar && scene.time.now > scene.disparoenemigo.cadencia.bandera) {
 
-            buscar = true;
-            this.settings_disparo_enemigo(disp, ene);
-            this.disparoenemigo.cadencia.bandera = this.time.now + this.disparoenemigo.cadencia.disparo;
-          }
-        });
+          buscar = true;
+          settings_disparo_enemigo(disp, ene);
+          enemigo_gira(ene, scene);
+          scene.disparoenemigo.cadencia.bandera = scene.time.now + scene.disparoenemigo.cadencia.disparo;
+          scene.sonidoDieT1.play();
+          scene.sonidoDieT2.play();
+        }
+      });
 
-      } else {
+    } else if (ene.body.enable) {
 
-        this.disparoenemigo.get().getChildren().forEach(disp => {
+      scene.disparoenemigo.get().getChildren().forEach(disp => {
 
-          if (Phaser.Math.Between(0, 999) < Settings.getNivel() * 9 && this.time.now > this.disparoenemigo.cadencia.bandera) {
+        if (Phaser.Math.Between(0, 999) < Settings.getNivel() * 9 && scene.time.now > scene.disparoenemigo.cadencia.bandera) {
 
-            buscar = true;
-            this.settings_disparo_enemigo(disp, ene);
-            this.disparoenemigo.cadencia.bandera = this.time.now + this.disparoenemigo.cadencia.disparo;
-          }
-        });
-      }
-    });
+          buscar = true;
+          settings_disparo_enemigo(disp, ene);
+          enemigo_gira(ene, scene);
+          scene.disparoenemigo.cadencia.bandera = scene.time.now + scene.disparoenemigo.cadencia.disparo;
+          scene.sonidoDieT1.play();
+          scene.sonidoDieT2.play();
+        }
+      });
+    }
+  });
 }
 
 // ==================================================================================
 function settings_disparo_enemigo(disp, ene) {
+  
+  disp.setActive(true).setVisible(true);
+  disp.enableBody(true, ene.x, ene.y + Math.floor(ene.body.height / 2), true, true);
+  // disp.setX(ene.x);
+  // disp.setY(ene.y + Math.floor(ene.body.height / 2));
+  disp.setVelocityY(DisparoEnemigo.VEL_Y + Settings.getNivel() * 50);
+  // disp.setAngle(90);
+  disp.setScale(0.8);
+  disp.setAlpha(1);
+}
 
-    disp.setActive(true).setVisible(true);
-    disp.setX(ene.x);
-    disp.setY(ene.y + Math.floor(ene.body.height / 2));
-    disp.setVelocityY(DisparoEnemigo.VEL_Y + Settings.getNivel() * 50);
-    disp.setAngle(90);
-    disp.setScale(2.2);
-    disp.setAlpha(1);
+// ==================================================================================
+function enemigo_gira(ene, scene) {
+
+  scene.tweens.add({
+    targets: ene,
+    angle: 360,
+    duration: 300,
+    yoyo: true,
+  });
 }
 
 // ==================================================================================
@@ -95,11 +114,7 @@ function colisionVsEnemigo(enemigo, disparo) {
 
       if (!particula.active && !particula.visible && buscarParticula < Particulas.NRO_PARTICULAS) {
         buscarParticula ++;
-        particula.setActive(true).setVisible(true);
-        particula.setX(enemigo.x);
-        particula.setY(enemigo.y);
-        particula.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(-180, 180));
-        particula.setAlpha(1.0);
+        settings_particulas(particula, enemigo);
 
         setTimeout(() => {
           particula.setActive(false).setVisible(false);
@@ -114,10 +129,7 @@ function colisionVsEnemigo(enemigo, disparo) {
 
       if (!explo.active && !explo.visible && !buscar) {
         buscar = true;
-        explo.setActive(true).setVisible(true);
-        explo.setX(enemigo.x);
-        explo.setY(enemigo.y);
-        explo.setAlpha(1.0);
+        settings_explosion(explo, enemigo);
 
         setTimeout(() => {
           explo.setActive(false).setVisible(false);
@@ -145,8 +157,66 @@ function colisionJugadorVsEnemigo(jugador, enemigo) {
   console.log(enemigo, jugador);
   console.log(jugador.getData('posIni'));
 
+  let buscarParticula = 0;
+
+  this.particulas.get().children.iterate(particula => {
+
+    if (!particula.active && !particula.visible && buscarParticula < Particulas.NRO_PARTICULAS * 2) {
+      buscarParticula ++;
+
+      if (buscarParticula < Particulas.NRO_PARTICULAS) {
+        settings_particulas(particula, enemigo);
+      } else {
+        settings_particulas(particula, jugador);
+        particula.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-300, 300));
+      }
+      
+      setTimeout(() => {
+        particula.setActive(false).setVisible(false);
+      }, Particulas.DURACION_PARTICULAS);
+    }
+  });
+
+  // ----------------------------------------------------------
+  let buscar = false;
+
+  this.explosion.get().children.iterate(explo => {
+
+    if (!explo.active && !explo.visible && !buscar) {
+      buscar = true;
+      settings_explosion(explo, enemigo);
+
+      setTimeout(() => {
+        explo.setActive(false).setVisible(false);
+      }, Explosion.DURACION_EXPLO);
+    }
+  });
+
+  // ----------------------------------------------------------
+  buscar = false;
+
+  this.explosion.get().children.iterate(explo => {
+
+    if (!explo.active && !explo.visible && !buscar) {
+      buscar = true;
+      settings_explosion(explo, jugador);
+      explo.setScale(4);
+
+      setTimeout(() => {
+        explo.setActive(false).setVisible(false);
+      }, Jugador.DURACION_EXPLO);
+    }
+  });
+
+  // ---------------------------------------------------------
   setTimeout(() => {
-    jugador.setActive(true).setVisible(true).enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
+    jugador.setActive(true).setVisible(true).setAlpha(0.1);
+    jugador.enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
+    this.tweens.add({
+      targets: jugador,
+      alpha: 1,
+      duration: 3000
+    });
   }, Jugador.REVIVIR_PAUSA);
 
   jugador.setActive(false).setVisible(false).disableBody(true, true);
@@ -155,10 +225,31 @@ function colisionJugadorVsEnemigo(jugador, enemigo) {
   this.marcador.update(0, Settings.getPuntos()); // 0 = actualizar puntos
 
   enemigo.setActive(false).setVisible(false).disableBody(true, true);
+  this.sonidoNaveExplota.play();
   this.sonidoExplosion.play();
 
   if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');
   console.log(this.enemigo.get().countActive());
+}
+
+// ==================================================================================
+function settings_particulas(particula, enemigo) {
+
+  particula.setActive(true).setVisible(true);
+  particula.setX(enemigo.x);
+  particula.setY(enemigo.y);
+  particula.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(-180, 180));
+  particula.setAlpha(1.0);
+}
+
+// ----------------------------------------------------------------------------------
+function settings_explosion(explo, enemigo) {
+
+  explo.setActive(true).setVisible(true);
+  explo.setX(enemigo.x);
+  explo.setY(enemigo.y);
+  explo.setAlpha(1.0);
+  explo.setScale(2);
 }
 
 // =================================================================================

@@ -10,7 +10,8 @@ export function loader(scene) {
   scene.load.spritesheet('enemigos', './src/img/anima-enemigosGalaxian.png', {frameWidth: 135, frameHeight: 95});
   scene.load.spritesheet('enemigos2', './src/img/anima-enemigosGalaxian2.png', {frameWidth: 135, frameHeight: 95});
   // scene.load.image('disparo-ene', './src/img/estrella-rojiza.png');
-  scene.load.spritesheet('disparo-ene', './src/img/shinobi-pow.png', {frameWidth: 18, frameHeight: 9});
+  // scene.load.spritesheet('disparo-ene', './src/img/shinobi-pow.png', {frameWidth: 18, frameHeight: 9});
+  scene.load.spritesheet('disparo-ene', './src/img/disparo-ene-ssheet.png', {frameWidth: 18, frameHeight: 39});
   scene.load.spritesheet('explosion', './src/img/explo-naveGalaxian.png', {frameWidth: 32, frameHeight: 32});
   scene.load.image('particula', './src/img/particula-chispa.png');
 
@@ -40,4 +41,6 @@ export function loader(scene) {
   scene.load.audio('sonidoNaveExplota', './src/audio/navexplota.mp3');
   scene.load.audio('sonidoGalaxian', './src/audio/playing-galaxian.mp3');
   scene.load.audio('sonidoIntroRetro', './src/audio/retro-game-intro.mp3');
+  scene.load.audio('dieT1', './src/audio/dieThrow1.ogg');
+  scene.load.audio('dieT2', './src/audio/dieThrow2.ogg');
 }

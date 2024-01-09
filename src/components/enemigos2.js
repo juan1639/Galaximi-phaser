@@ -5,6 +5,7 @@ import { centrar_txt } from '../utils/functions.js';
 export class Enemigo {
 
     static tileXY = [64, 64];
+    static VEL_Y = 120;
 
     // ------------------------------------------------------------
     constructor(scene) {
@@ -21,7 +22,7 @@ export class Enemigo {
             frameQuantity: this.formacion.EnemigoDeCadaTipo[0],
             gridAlign: { 
                 width: 12, 
-                height: 4, 
+                height: this.formacion.columnas, 
                 cellWidth: Enemigo.tileXY[0], 
                 cellHeight: Enemigo.tileXY[1], 
                 x: this.formacion.marginLeft,  
@@ -44,6 +45,20 @@ export class Enemigo {
         this.crea_enemigos_descendentes();
         this.crea_anims(Settings.getNivel());
 
+        const timeline = this.relatedScene.add.timeline([
+            {
+                at: 30000,
+                run: () => {
+                    this.enemigos.children.iterate(ene => {
+
+                        ene.setVelocityY(Enemigo.VEL_Y);
+                    });
+                }
+            }
+        ]);
+
+        timeline.play();
+
         console.log(this.enemigos.getChildren());
     }
 
@@ -56,6 +71,12 @@ export class Enemigo {
         }
 
         Phaser.Actions.IncX(this.enemigos.getChildren(), this.formacion.velX);
+
+        this.enemigos.children.iterate(ene => {
+
+            if (ene.y > this.relatedScene.sys.game.config.height) ene.setVelocityY(-Enemigo.VEL_Y);
+            if (ene.y < -200) ene.setVelocityY(Enemigo.VEL_Y);
+        });
     }
 
     inicializar(ene, index) {
@@ -154,41 +175,63 @@ export class Enemigo {
 
     formaciones_nivel(nivel) {
 
-        if (nivel === 1) {
-
-            return {
-                x: 0,
+        const formaciones = [
+            {
+                x: 0,// (Nivel 0 --> No hay)
                 velX: 1,
                 recorrido: 60,
                 // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
                 marginLeft: 0,
                 // marginTop: Math.floor(Enemigo.tileXY[1]),
                 marginTop: 0,
-                EnemigoDeCadaTipo: [24, 24]
-            };
-        
-        } else if (nivel === 2) {
-
-            return {
-                x: 0,
+                EnemigoDeCadaTipo: [24, 24],
+                columnas: 4
+            },
+            {
+                x: 0,// Nivel 1
+                velX: 1,
+                recorrido: 60,
+                // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
+                marginLeft: 0,
+                // marginTop: Math.floor(Enemigo.tileXY[1]),
+                marginTop: 0,
+                EnemigoDeCadaTipo: [24, 24],
+                columnas: 4
+            },
+            {
+                x: 0,// Nivel 2
                 velX: 2,
                 recorrido: 60,
                 // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
                 marginLeft: 0,
-                marginTop: 0,
-                EnemigoDeCadaTipo: [24, 24]
-            };
-        } 
+                marginTop: -Enemigo.tileXY[1] * 2,
+                EnemigoDeCadaTipo: [36, 36],
+                columnas: 6
 
-        return {
-            x: 0,
-            velX: 2,
-            recorrido: 60,
-            // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
-            marginLeft: 0,
-            marginTop: 0,
-            EnemigoDeCadaTipo: [24, 24]
-        };
+            },
+            {
+                x: 0,// Nivel 3
+                velX: 2,
+                recorrido: 60,
+                // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
+                marginLeft: 0,
+                marginTop: -Enemigo.tileXY[1] * 4,
+                EnemigoDeCadaTipo: [48, 48],
+                columnas: 8
+            },
+            {
+                x: 0,// Nivel 4
+                velX: 2,
+                recorrido: 60,
+                // marginLeft: Math.floor(Enemigo.tileXY[0] / 2),
+                marginLeft: 0,
+                marginTop: -Enemigo.tileXY[1] * 4,
+                EnemigoDeCadaTipo: [48, 48],
+                columnas: 8
+            }
+        ];
+
+        return formaciones[nivel];
     }
 
     get() {
@@ -214,7 +257,7 @@ export class EnemigoApareciendo extends Enemigo {
             frameQuantity: this.formacion.EnemigoDeCadaTipo[0],
             gridAlign: { 
                 width: 12, 
-                height: 4, 
+                height: this.formacion.columnas, 
                 cellWidth: Enemigo.tileXY[0], 
                 cellHeight: Enemigo.tileXY[1], 
                 x: this.formacion.marginLeft,  
@@ -224,20 +267,6 @@ export class EnemigoApareciendo extends Enemigo {
 
         this.enemigos.getChildren().forEach((ene, index) => {
             this.inicializar(ene, index);
-        });
-
-        this.relatedScene.tweens.add({
-            targets: this.enemigos.getChildren(),
-            alpha: 1,
-            delay: 800,
-            duration: 4100
-        });
-
-        this.relatedScene.tweens.add({
-            targets: this.enemigos.getChildren(),
-            angle: 360,
-            duration: 500,
-            repeat: 4
         });
 
         this.crea_enemigos_descendentesApareciendo();
@@ -290,8 +319,16 @@ export class EnemigoApareciendo extends Enemigo {
 
         this.relatedScene.tweens.add({
             targets: this.enemigos.getChildren(),
-            y: -this.relatedScene.sys.game.config.height,
-            ease: 'sine.out',
+            alpha: 1,
+            delay: 1400,
+            duration: 4100
+        });
+
+        this.relatedScene.tweens.add({
+            targets: this.enemigos.getChildren(),
+            y: -(Math.floor(this.relatedScene.sys.game.config.height / 2)),
+            // ease: 'sine.out',
+            ease: 'Sine.easeIn',
             duration: 2400,
             yoyo: true
         });

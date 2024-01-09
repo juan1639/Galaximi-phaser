@@ -57,6 +57,8 @@ export class Game extends Phaser.Scene {
     this.sonidoNaveExplota = this.sound.add('sonidoNaveExplota');
     this.sonidoGalaxian = this.sound.add('sonidoGalaxian');
     this.sonidoIntroRetro = this.sound.add('sonidoIntroRetro');
+    this.sonidoDieT1 = this.sound.add('dieT1');
+    this.sonidoDieT2 = this.sound.add('dieT2');
 
     this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
     this.estrella.create();
@@ -87,7 +89,11 @@ export class Game extends Phaser.Scene {
     this.marcador.create();
 
     this.physics.add.collider(this.enemigo.get(), this.disparo.get(), colisionVsEnemigo, null, this);
-    this.physics.add.overlap(this.enemigo.get(), this.jugador.get(), colisionJugadorVsEnemigo, null, this);
+    this.physics.add.overlap(this.enemigo.get(), this.jugador.get(), colisionJugadorVsEnemigo,(enemigo, jugador) => {
+
+      if (enemigo.alpha < 1) return false;// Invisibilidad al revivir
+      return true;
+    }, this);
   }
 
   // ================================================================
@@ -97,7 +103,7 @@ export class Game extends Phaser.Scene {
     // console.log(pointer.worldX, pointer.worldY);
 
     inicia_disparo(this.jugador, this.scene, this.botonfire, this.time, this.disparo, this.sonidoDisparo);
-    // inicia_disparo_enemigos();
+    inicia_disparo_enemigos(this);
 
     this.estrella.update();
     this.jugador.update();

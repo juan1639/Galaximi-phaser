@@ -22,15 +22,23 @@ export class DisparoEnemigo {
 
         this.relatedScene.anims.create({
             key: 'disparo-ene-anim',
-            frames: this.relatedScene.anims.generateFrameNumbers('disparo-ene', { frames: [ 0, 1, 2] }),
+            frames: this.relatedScene.anims.generateFrameNumbers('disparo-ene', { frames: [ 0, 1, 2, 3 ] }),
             frameRate: 10,
             repeat: -1
         });
 
+        this.relatedScene.tweens.add({
+            targets: this.disparoenemigo.getChildren(),
+            scale: 1.1,
+            duration: 200,
+            yoyo: true,
+            repeat: -1,
+        });
+
         this.disparoenemigo.getChildren().forEach(disp => {
-            disp.setScale(2.2);
-            disp.setAngle(90);
-            disp.setActive(false).setVisible(false);
+            disp.setScale(0.8);
+            // disp.setAngle(90);
+            disp.setActive(false).setVisible(false).disableBody(true, true);
             disp.play('disparo-ene-anim');
             // console.log(disp.body.width, disp.body.height);
         });
@@ -50,7 +58,7 @@ export class DisparoEnemigo {
         this.disparoenemigo.children.iterate(disp => {
             if (disp.y > this.relatedScene.sys.game.config.height) {
 
-                disp.setActive(false).setVisible(false).setX(-8888);
+                disp.setActive(false).setVisible(false).disableBody(true, true);
             }
         });
     }
