@@ -3,16 +3,18 @@
 // 
 // -----------------------------------------------------------------------------------------
 import { loader } from './loader.js';
+import { Settings } from './settings.js';
 
 import { 
   inicia_disparo,
   inicia_disparo_enemigos,
   colisionVsEnemigo,
-  colisionJugadorVsEnemigo
+  colisionJugadorVsEnemigo,
+  colisionVsDisparoEnemigo
 } from '../utils/functions.js';
 
 import { Estrella } from './../components/fondo.js';
-import { Jugador } from './../components/jugador.js';
+import { Jugador, JugadorShowVidas } from './../components/jugador.js';
 import { Disparo } from '../components/disparo.js';
 import { Enemigo } from './../components/enemigos2.js';
 import { DisparoEnemigo } from '../components/disparo-ene.js';
@@ -30,8 +32,11 @@ export class Game extends Phaser.Scene {
 
   init() {
 
+    this.nivel_superado = false;
+
     this.estrella = new Estrella(this);
     this.jugador = new Jugador(this);
+    this.jugadorSV = new JugadorShowVidas(this);
     this.disparo = new Disparo(this);
     this.enemigo = new Enemigo(this);
     this.disparoenemigo = new DisparoEnemigo(this);
@@ -80,6 +85,10 @@ export class Game extends Phaser.Scene {
       thumb: this.add.image(0, 0, 'base-joystick').setScale(1)
     }); */
 
+    for (let i = 0; i < Settings.getVidas(); i ++) {
+      this.jugadorSV.create(JugadorShowVidas.xAbsolute + i * JugadorShowVidas.ancho, Math.floor(JugadorShowVidas.alto / 2));
+    }
+    
     this.jugador.create();
     this.disparo.create();
     this.enemigo.create();
@@ -88,10 +97,18 @@ export class Game extends Phaser.Scene {
     this.particulas.create();
     this.marcador.create();
 
+    // --------------------------------------------
     this.physics.add.collider(this.enemigo.get(), this.disparo.get(), colisionVsEnemigo, null, this);
+
     this.physics.add.overlap(this.enemigo.get(), this.jugador.get(), colisionJugadorVsEnemigo,(enemigo, jugador) => {
 
       if (enemigo.alpha < 1) return false;// Invisibilidad al revivir
+      return true;
+    }, this);
+
+    this.physics.add.overlap(this.disparoenemigo.get(), this.jugador.get(), colisionVsDisparoEnemigo,(disparoenemigo, jugador) => {
+
+      if (disparoenemigo.alpha < 1) return false;// Invisibilidad al revivir
       return true;
     }, this);
   }
@@ -102,7 +119,10 @@ export class Game extends Phaser.Scene {
     // const pointer = this.input.activePointer;
     // console.log(pointer.worldX, pointer.worldY);
 
-    inicia_disparo(this.jugador, this.scene, this.botonfire, this.time, this.disparo, this.sonidoDisparo);
+    if (this.jugador.get().active && this.jugador.get().visible) {
+      inicia_disparo(this.jugador, this.scene, this.botonfire, this.time, this.disparo, this.sonidoDisparo);
+    }
+
     inicia_disparo_enemigos(this);
 
     this.estrella.update();
@@ -110,5 +130,7 @@ export class Game extends Phaser.Scene {
     this.disparo.update();
     this.enemigo.update();
     this.disparoenemigo.update();
+
+    if (this.nivel_superado) this.scene.start('congratulations');
   }
 }

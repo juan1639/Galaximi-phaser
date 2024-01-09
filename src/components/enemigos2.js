@@ -231,6 +231,8 @@ export class Enemigo {
             }
         ];
 
+        if (nivel > 4) return formaciones[4];
+
         return formaciones[nivel];
     }
 

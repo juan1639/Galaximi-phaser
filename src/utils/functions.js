@@ -146,7 +146,7 @@ function colisionVsEnemigo(enemigo, disparo) {
     
     this.sonidoExplosion.play();
 
-    if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');
+    if (this.enemigo.get().countActive() <= 0) this.nivel_superado = true;
     console.log(this.enemigo.get().countActive());
 }
 
@@ -220,7 +220,8 @@ function colisionJugadorVsEnemigo(jugador, enemigo) {
   }, Jugador.REVIVIR_PAUSA);
 
   jugador.setActive(false).setVisible(false).disableBody(true, true);
-
+  restar_vida();
+  
   suma_puntos(enemigo);
   this.marcador.update(0, Settings.getPuntos()); // 0 = actualizar puntos
 
@@ -228,8 +229,69 @@ function colisionJugadorVsEnemigo(jugador, enemigo) {
   this.sonidoNaveExplota.play();
   this.sonidoExplosion.play();
 
-  if (this.enemigo.get().countActive() <= 0) console.log('nivel superado!');
+  if (this.enemigo.get().countActive() <= 0) this.nivel_superado = true;
   console.log(this.enemigo.get().countActive());
+}
+
+// ===================================================================================
+function colisionVsDisparoEnemigo(jugador, disparoenemigo) {
+
+  console.log('colision...disparo-enemigo');
+  console.log(disparoenemigo, jugador);
+  console.log(jugador.getData('posIni'));
+
+  let buscarParticula = 0;
+
+  this.particulas.get().children.iterate(particula => {
+
+    if (!particula.active && !particula.visible && buscarParticula < Particulas.NRO_PARTICULAS * 2) {
+      buscarParticula ++;
+
+      if (buscarParticula < Particulas.NRO_PARTICULAS) {
+        settings_particulas(particula, disparoenemigo);
+      } else {
+        settings_particulas(particula, jugador);
+        particula.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-300, 300));
+      }
+      
+      setTimeout(() => {
+        particula.setActive(false).setVisible(false);
+      }, Particulas.DURACION_PARTICULAS);
+    }
+  });
+
+  // ----------------------------------------------------------
+  let buscar = false;
+
+  this.explosion.get().children.iterate(explo => {
+
+    if (!explo.active && !explo.visible && !buscar) {
+      buscar = true;
+      settings_explosion(explo, jugador);
+      explo.setScale(4);
+
+      setTimeout(() => {
+        explo.setActive(false).setVisible(false);
+      }, Jugador.DURACION_EXPLO);
+    }
+  });
+
+  // ---------------------------------------------------------
+  setTimeout(() => {
+    jugador.setActive(true).setVisible(true).setAlpha(0.1);
+    jugador.enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
+    this.tweens.add({
+      targets: jugador,
+      alpha: 1,
+      duration: 3000
+    });
+  }, Jugador.REVIVIR_PAUSA);
+
+  jugador.setActive(false).setVisible(false).disableBody(true, true);
+  restar_vida();
+
+  disparoenemigo.setActive(false).setVisible(false).disableBody(true, true);
+  this.sonidoNaveExplota.play();
 }
 
 // ==================================================================================
@@ -261,10 +323,17 @@ function centrar_txt(texto, anchoScreen) {
 
 // =================================================================================
 function suma_puntos(puntos) {
-
+  
   const bonus = Settings.getPuntos() + puntos.getData('puntos');
   Settings.setPuntos(bonus);
   console.log(bonus, Settings.getPuntos());
+}
+
+// =================================================================================
+function restar_vida() {
+
+  const actualizar = Settings.getVidas() - 1;
+  Settings.setVidas(actualizar);
 }
 
 export {
@@ -272,5 +341,6 @@ export {
     inicia_disparo,
     inicia_disparo_enemigos,
     colisionVsEnemigo,
-    colisionJugadorVsEnemigo
+    colisionJugadorVsEnemigo,
+    colisionVsDisparoEnemigo
 };

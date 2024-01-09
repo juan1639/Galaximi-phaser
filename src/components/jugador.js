@@ -55,3 +55,25 @@ export class Jugador {
         return this.jugador;
     }
 }
+
+// =======================================================================
+export class JugadorShowVidas {
+
+    static xAbsolute = 240;
+    static ancho = 19; // 124
+    static alto = 28; // 183
+
+    // ------------------------------------------------------------
+    constructor(scene) {
+        this.relatedScene = scene;
+    }
+
+    create(x, y) {
+
+        this.jugadorSV = this.relatedScene.add.image(x, y, 'jugador');
+        this.jugadorSV.setScale(0.15, 0.15);
+        this.jugadorSV.setAlpha(0.9);
+
+        console.log(this.jugadorSV);
+    }
+}
