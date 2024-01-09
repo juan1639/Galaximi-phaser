@@ -209,19 +209,22 @@ function colisionJugadorVsEnemigo(jugador, enemigo) {
   });
 
   // ---------------------------------------------------------
-  setTimeout(() => {
-    jugador.setActive(true).setVisible(true).setAlpha(0.1);
-    jugador.enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
-    this.tweens.add({
-      targets: jugador,
-      alpha: 1,
-      duration: 3000
-    });
-  }, Jugador.REVIVIR_PAUSA);
+  if (Settings.getVidas() > 0) {
+    setTimeout(() => {
+      jugador.setActive(true).setVisible(true).setAlpha(0.1);
+      jugador.enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
+      this.tweens.add({
+        targets: jugador,
+        alpha: 1,
+        duration: 3000
+      });
+    }, Jugador.REVIVIR_PAUSA);
+  }
 
   jugador.setActive(false).setVisible(false).disableBody(true, true);
   restar_vida();
-  
+  if (Settings.getVidas() >= 0) this.jugadorSV.get().getChildren()[Settings.getVidas()].setVisible(false);
+
   suma_puntos(enemigo);
   this.marcador.update(0, Settings.getPuntos()); // 0 = actualizar puntos
 
@@ -277,18 +280,21 @@ function colisionVsDisparoEnemigo(jugador, disparoenemigo) {
   });
 
   // ---------------------------------------------------------
-  setTimeout(() => {
-    jugador.setActive(true).setVisible(true).setAlpha(0.1);
-    jugador.enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
-    this.tweens.add({
-      targets: jugador,
-      alpha: 1,
-      duration: 3000
-    });
-  }, Jugador.REVIVIR_PAUSA);
+  if (Settings.getVidas() > 0) {
+    setTimeout(() => {
+      jugador.setActive(true).setVisible(true).setAlpha(0.1);
+      jugador.enableBody(true, jugador.getData('posIni')[0], jugador.getData('posIni')[1], true, true);
+      this.tweens.add({
+        targets: jugador,
+        alpha: 1,
+        duration: 3000
+      });
+    }, Jugador.REVIVIR_PAUSA);
+  }
 
   jugador.setActive(false).setVisible(false).disableBody(true, true);
   restar_vida();
+  if (Settings.getVidas() >= 0) this.jugadorSV.get().getChildren()[Settings.getVidas()].setVisible(false);
 
   disparoenemigo.setActive(false).setVisible(false).disableBody(true, true);
   this.sonidoNaveExplota.play();

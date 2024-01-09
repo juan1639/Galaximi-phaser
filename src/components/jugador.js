@@ -1,3 +1,4 @@
+import { Settings } from "../scenes/settings.js";
 
 // =======================================================================
 export class Jugador {
@@ -68,12 +69,23 @@ export class JugadorShowVidas {
         this.relatedScene = scene;
     }
 
-    create(x, y) {
+    create() {
 
-        this.jugadorSV = this.relatedScene.add.image(x, y, 'jugador');
-        this.jugadorSV.setScale(0.15, 0.15);
-        this.jugadorSV.setAlpha(0.9);
+        this.jugadorSV = this.relatedScene.add.group({
+            key: 'jugador',
+            setXY: { x: JugadorShowVidas.xAbsolute, y: Math.floor(JugadorShowVidas.alto / 2), stepX: JugadorShowVidas.ancho},
+            repeat: Settings.getVidas() - 1
+        });
+
+        this.jugadorSV.children.iterate(vida => {
+            vida.setScale(0.15, 0.15);
+            vida.setAlpha(0.9);
+        });
 
         console.log(this.jugadorSV);
+    }
+
+    get() {
+        return this.jugadorSV;
     }
 }

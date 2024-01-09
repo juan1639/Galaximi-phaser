@@ -3,7 +3,7 @@ export class Settings {
 
     static puntos = 0;
     static nivel = 1;
-    static hi = 3000;
+    static hi = 20000;
     static vidas = 3;
 
     static getPuntos() {

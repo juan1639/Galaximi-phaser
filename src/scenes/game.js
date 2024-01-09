@@ -84,11 +84,8 @@ export class Game extends Phaser.Scene {
       // thumb: this.add.circle(0, 0, 25, 0xcccccc),
       thumb: this.add.image(0, 0, 'base-joystick').setScale(1)
     }); */
-
-    for (let i = 0; i < Settings.getVidas(); i ++) {
-      this.jugadorSV.create(JugadorShowVidas.xAbsolute + i * JugadorShowVidas.ancho, Math.floor(JugadorShowVidas.alto / 2));
-    }
     
+    this.jugadorSV.create();
     this.jugador.create();
     this.disparo.create();
     this.enemigo.create();
@@ -132,5 +129,6 @@ export class Game extends Phaser.Scene {
     this.disparoenemigo.update();
 
     if (this.nivel_superado) this.scene.start('congratulations');
+    if (Settings.getVidas() < 0) this.scene.start('gameover');
   }
 }
