@@ -44,8 +44,8 @@ export class Game extends Phaser.Scene {
     this.particulas = new Particulas(this);
     this.marcador = new Marcador(this);
     this.botonfire = new BotonFire(this);
-    this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: 70, y: 55 });
-    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 250, y: 55 });
+    this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: 80, y: 60 });
+    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 290, y: 60 });
     // var joyStick = scene.plugins.get('rexvirtualjoystickplugin').addPlayer(scene, config);
   }
 

@@ -1,4 +1,5 @@
 import { Estrella } from '../components/fondo.js';
+import { Marcador } from '../components/marcador.js';
 import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
 import { centrar_txt } from "../utils/functions.js";
 import { Settings } from './settings.js';
@@ -10,6 +11,7 @@ export class GameOver extends Phaser.Scene {
 
     super({ key: 'gameover' });
     this.estrella = new Estrella(this);
+    this.marcador = new Marcador(this);
     this.botonrejugar = new BotonNuevaPartida(this);
   }
   
@@ -19,6 +21,7 @@ export class GameOver extends Phaser.Scene {
 
     this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
     this.estrella.create();
+    this.marcador.create();
 
     const duracionThisScene = 7000;
 

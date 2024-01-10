@@ -13,8 +13,8 @@ export class BotonFire {
     create() {
         const ancho = BotonFire.WIDTH;
         const alto = BotonFire.HEIGHT;
-        this.boton = this.relatedScene.add.image(ancho - 90, alto - 90, 'boton-fire-joystick').setInteractive();
-        this.boton.setScale(2);
+        this.boton = this.relatedScene.add.image(ancho - 100, alto - 90, 'boton-fire-joystick').setInteractive();
+        this.boton.setScale(2.3);
         this.isDown = false;
     
         this.boton.on('pointerover', () => {
@@ -52,15 +52,15 @@ export class CrucetaDireccion {
         const ancho = BotonFire.WIDTH;
         const alto = BotonFire.HEIGHT;
         this.boton = this.relatedScene.add.image(this.direccion.x, alto - this.direccion.y, this.direccion.id).setInteractive();
-        this.boton.setScale(2);
+        this.boton.setScale(2.7, 2.3);
         this.isDown = false;
     
         this.boton.on('pointerover', () => {
-          this.boton.setScale(2.07);
+          this.boton.setScale(2.8, 2.4);
         });
 
         this.boton.on('pointerout', () => {
-          this.boton.setScale(2);
+          this.boton.setScale(2.7, 2.3);
         });
 
         this.boton.on('pointerdown', () => {
