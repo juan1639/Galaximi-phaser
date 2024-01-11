@@ -18,7 +18,7 @@ export class Marcador {
         this.args = [
             [ ' Puntos: ', 20, '#fff', '#2ef', 7, 0, 0, Settings.getPuntos() ],
             [ ' Nivel: ', 20, '#fff', '#2ef', 7, Math.floor(ancho / 2), 0, Settings.getNivel() ],
-            [ ' Record: ', 20, '#fff', '#2ef', 7, Math.floor(ancho / 1.3), 0, Settings.getRecord() ]
+            [ ' Record: ', 20, '#fff', '#2ef', 7, Math.floor(ancho / 1.4), 0, Settings.getRecord() ]
         ];
 
         this.args.forEach((arg, index) => {

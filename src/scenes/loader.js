@@ -20,6 +20,7 @@ export function loader(scene) {
   scene.load.image('boton-nueva-partida', './src/img/boton-start.png');
   scene.load.image('boton-settings', './src/img/boton-config.png');
   scene.load.image('boton-continuar', './src/img/boton-continuar.png');
+  scene.load.spritesheet('boton-fullscreen', './src/img/boton-fullscreen.png', {frameWidth: 64, frameHeight: 64});
   
   // ---------------------------------------------------------------------------------
   //  Pluggin Control Joystick-tactil

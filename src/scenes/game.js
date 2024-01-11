@@ -21,6 +21,7 @@ import { DisparoEnemigo } from '../components/disparo-ene.js';
 import { Explosion } from '../components/explosion.js';
 import { Particulas } from '../components/particulas.js';
 import { Marcador } from './../components/marcador.js';
+import { BotonFullScreen } from '../components/boton-nuevapartida.js';
 import { BotonFire, CrucetaDireccion } from '../components/botonfire.js';
 
 // --------------------------------------------------------------
@@ -43,6 +44,7 @@ export class Game extends Phaser.Scene {
     this.explosion = new Explosion(this);
     this.particulas = new Particulas(this);
     this.marcador = new Marcador(this);
+    this.botonfullscreen = new BotonFullScreen(this);
     this.botonfire = new BotonFire(this);
     this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: 80, y: 60 });
     this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 290, y: 60 });
@@ -71,6 +73,7 @@ export class Game extends Phaser.Scene {
     // this.gameoverImage = this.add.image(400, 90, 'gameover');
     // this.gameoverImage.visible = false;
 
+    this.botonfullscreen.create();
     this.botonfire.create();
     this.crucetaleft.create();
     this.crucetaright.create();
