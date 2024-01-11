@@ -17,7 +17,9 @@ export function loader(scene) {
   scene.load.image('particula', './src/img/particula-chispa.png');
 
   // scene.load.image('gameover', './src/img/gameover.png');
-  scene.load.spritesheet('boton-nueva-partida', './src/img/boton-nueva-partida-galaximi.png', {frameWidth: 251, frameHeight: 135});
+  scene.load.image('boton-nueva-partida', './src/img/boton-start.png');
+  scene.load.image('boton-settings', './src/img/boton-config.png');
+  scene.load.image('boton-continuar', './src/img/boton-continuar.png');
   
   // ---------------------------------------------------------------------------------
   //  Pluggin Control Joystick-tactil

@@ -2,7 +2,7 @@ import { loader } from './loader.js';
 import { centrar_txt } from '../utils/functions.js';
 import { Settings } from './settings.js';
 import { Estrella } from '../components/fondo.js';
-import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
+import { BotonNuevaPartida, BotonSettings } from "../components/boton-nuevapartida.js";
 
 // =================================================================================
 export class MenuPrincipal extends Phaser.Scene {
@@ -20,6 +20,7 @@ export class MenuPrincipal extends Phaser.Scene {
 
         this.estrella = new Estrella(this);
         this.botoninicio = new BotonNuevaPartida(this);
+        this.botonsettings = new BotonSettings(this);
     } 
 
     preload() {
@@ -68,6 +69,7 @@ export class MenuPrincipal extends Phaser.Scene {
               at: aparecerBoton,
               run: () => {
                 this.botoninicio.create('prenivel');
+                this.botonsettings.create('prenivel');
               }
             }
         ]);
