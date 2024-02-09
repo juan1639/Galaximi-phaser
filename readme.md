@@ -1,4 +1,7 @@
-Proyecto hecho en JavaScript utilizando la librería Phaser de un juego
-de tipo Space Invaders.
+Una versión de un juego tipo Space Invaders, Galaxian, Galaga en JavaScript 
+usando la librería Phaser.
+
+<img src="./src/img/miniatura-galaximi.png"/>
 
 https://juan1639.github.io/Galaximi-phaser
+
